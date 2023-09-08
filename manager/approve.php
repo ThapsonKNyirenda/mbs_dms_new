@@ -150,9 +150,9 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="approve.php">
           <i class="bi bi-file-earmark-text-fill"></i>
-          <span>FILES</span>
+          <span>PENDING FILES</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -208,15 +208,24 @@
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
-      <h1 class="mb-3">FINANCE DEPARTMENT</h1>
+      <h1 class="mb-3"><?php 
+        if($department=='director'){
+          echo"Director General's Office Department";
+        }elseif ($department=='finance') {
+          echo'Finance and Administration Department';
+        }elseif ($department=='standards') {
+          echo'Standards Development Department';
+        }elseif ($department=='quality') {
+          echo'Quality Assurance Service Department';
+        }elseif ($department=='testing') {
+          echo'Testing Services Department';
+        }elseif ($department=='metrology') {
+          echo'Metrology Services Department';
+        }
+      ?></h1>
       <hr>
       <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item"><a href="department.html">Department/</a></li>
-          <li class="breadcrumb-item active">Director General Office</li>
-          
-        </ol>
+        
       </nav>
     </div><!-- End Page Title -->
 

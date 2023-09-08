@@ -260,13 +260,11 @@
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
-      <h1 class="mb-3">DIRECTOR GENERAL OFFICE DEPARTMENT</h1>
+      <h1 class="mb-3">UPLOAD FILES</h1>
       <hr>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-          <li class="breadcrumb-item">Department/</li>
-          <li class="breadcrumb-item active">Director General Office</li>
+          
           
         </ol>
       </nav>

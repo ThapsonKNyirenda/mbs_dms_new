@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title></title>
     
     <!-- Include SweetAlert2 library via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
@@ -27,7 +27,8 @@
         $title = $_POST['title'];
         $target = "uploads/";
         $user = $_SESSION['username'];
-        $targetDir = $target . "finance/";
+        $department = $_SESSION['department'];
+        $targetDir = $target . "pending_uploads/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
         $fileType = $_FILES['file']['type'];
 
@@ -49,7 +50,7 @@
                 $folder_path = $targetDir;
                 $time_stamp = date('Y-m-d H:i:s');
                 
-                $sql = "INSERT INTO finance (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+                $sql = "INSERT INTO pending_uploads (title, filename, folder_path, time_stamp, uploaded_by,department) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department')";
 
                 $result = mysqli_query($conn, $sql);
   
@@ -58,7 +59,7 @@
                     $_SESSION['upload'] = true;
                 }
 
-                header('location: finance.php');
+                header('location: upload.php');
                 
             }
         }
