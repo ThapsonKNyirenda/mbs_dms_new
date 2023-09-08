@@ -1,0 +1,21 @@
+body{
+    background-color: rgb(187, 212, 223);
+    color: black;
+}
+#container{
+    margin: auto;
+    width: 400px;
+    margin-top: 100px;
+    padding: 20px;
+    height: 55vh;
+    border-radius: 15px;
+    background-color: rgba(255, 251, 251, 0.9);
+    color:black;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+h3{
+    text-align: center;
+}

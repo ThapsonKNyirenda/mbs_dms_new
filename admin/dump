@@ -1,0 +1,35 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['id'])) {
+    header('location: index.php');
+    exit(); // Ensure that the script stops execution after the header redirection
+}
+
+include('connection/connection.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Include necessary CSS and JavaScript files here -->
+  <link rel="stylesheet" type="text/css" href="sweet-alert/sweetalert.css">
+  <script src="sweet-alert/sweetalert.min.js"></script>
+</head>
+<body>
+<?php
+if (isset($_GET['doc_id'])) {
+    echo '<script>
+        swal("Hello world!");
+    </script>';
+    // No need to use die here, the rest of the code can continue
+}
+?>
+<!-- Rest of your HTML content -->
+
+<!-- <script type="text/javascript">
+    // This script will be executed regardless of the condition above
+    alert("Successfully deleted.");
+    window.location = "director.php";
+</script> -->
+</body>
+</html>
