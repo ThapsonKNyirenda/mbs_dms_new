@@ -1,50 +1,59 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "dms";
+  session_start();
 
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php'); // Go up one directory to the parent folder.
+    exit();  // Terminate script execution.
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['doc-title'];
-    
-    
-    $file = $_FILES['file'];
-    $timestamp = time(); // Get the current Unix timestamp
-    $filename = $file['name'];
-    $tmp_path = $file['tmp_name'];
-
-    // Move the uploaded file to a directory on the server
-    $upload_dir = 'uploads/';
-    $uploaded_file = $upload_dir . basename($filename);
-    
-    if (move_uploaded_file($tmp_path, $uploaded_file)) {
-        // Insert document details into the database
-        $sql = "INSERT INTO upload (title, folder_path, time_stamp, uploaded_by) VALUES ('$title','$uploaded_file' ,'$timestamp', '')";
-        
-        if ($conn->query($sql) === TRUE) {
-            echo "Document Uploaded Successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-    } else {
-        echo "Error uploading file.";
-    }
-}
-
-$conn->close();
 
 ?>
+<?php
+  $department= $_SESSION['department'];
+  $email=$_SESSION['username'];
+?>
+<?php
 
+    if (!isset($_SESSION['id'])) {
+      header('location: ../index.php');
+    }
+
+    include('../connection/connection.php');
+
+    if (isset($_SESSION['delete_success'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: 'File has been successfully deleted!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['delete_success']);
+    }
+
+    if (isset($_SESSION['upload'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: 'File has been successfully Uploaded!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['upload']);
+    }
+  
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
+  <!-- <link rel="stylesheet" type="text/css" href="sweet-alert/sweetalert.css">
+  <script src="sweet-alert/sweetalert.min.js"></script> -->
+  <!-- <script src="sweet-alert/sweetalert.min.js"></script> -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -71,7 +80,6 @@ $conn->close();
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style2.css">
 
   <!-- links for the table style  -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -86,9 +94,28 @@ $conn->close();
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <style>
+    /* Loading Screen */
+    #loading {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        background: white url('assets/img/loading.gif') no-repeat center center; /* You can replace this with your own loading GIF or spinner */
+        z-index: 9999;
+    }
+</style>
+
+  <style>
+    #btn2{
+      padding: 3px;
+      margin: 3px;
+    }
+  </style>
 </head>
 
 <body>
+<div id="loading"></div>
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #fb7d3e;">
@@ -134,28 +161,29 @@ $conn->close();
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/messages-2.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Madalitso Mzunga</span>
+            <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></h6></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Madalitso Mzunga</h6>
-              <span>Admin</span>
+            <h6>
+              <?php echo $_SESSION['username'];?></h6>
+              <span><?php echo $_SESSION['user'];?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>My Profile</span>
               </a>
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -169,67 +197,66 @@ $conn->close();
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
-          <i class="bi bi-file-earmark-text-fill"></i>
-          <span>FILES</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="index.html">
+      <i class="bi bi-file-earmark-text-fill"></i>
+      <span>FILES</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-upload"></i>
-          <span>UPLOAD</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="upload.php">
+      <i class="bi bi-upload"></i>
+      <span>UPLOAD</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="approve.html">
-          <i class="bi bi-check-circle-fill"></i>
-          <span>APPROVE FILE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#.html">
+      <i class="bi bi-check-circle-fill"></i>
+      <span>APPROVE FILE</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="usermanagement.html">
-          <i class="bi bi-messenger"></i>
-          <span>MESSAGE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="message.html">
+      <i class="bi bi-messenger"></i>
+      <span>MESSAGE</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="usermanagement.html">
-          <i class="bi bi-recycle"></i>
-          <span>RECYCLE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="recycle.html">
+      <i class="bi bi-recycle"></i>
+      <span>RECYCLE</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      
+  
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person-fill-gear"></i>
-          <span>MY ACCOUNT</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="users-profile.html">
+      <i class="bi bi-person-fill-gear"></i>
+      <span>MY ACCOUNT</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-power"></i>
-          <i class="bi bi-person-fill-gear"></i>
-          <span>LOG OUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="logout.php">
+      <i class="bi bi-power"></i>
+      <i class="bi bi-person-fill-gear"></i>
+      <span>LOG OUT</span>
+    </a>
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
-
+</aside><!-- End Sidebar-->
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
@@ -237,7 +264,7 @@ $conn->close();
       <hr>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
           <li class="breadcrumb-item">Department/</li>
           <li class="breadcrumb-item active">Director General Office</li>
           
@@ -255,26 +282,37 @@ $conn->close();
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-12">
               <div class="card info-card sales-card p-3">
-                <form action="upload.php" method="post" enctype="multipart/form-data">
+                <form action="upload_file.php" enctype="multipart/form-data" method="POST">
                     <div class="row mb-3">
                       <label for="inputText" class="col-sm-2 col-form-label">Document Title</label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control" placeholder="Doc. Title" name="doc-title" id="doc-title">
+                        <input type="text" class="form-control" placeholder="Doc. Title" name="title" required>
                       </div>
                     </div>
                     
                     <div class="row mb-3">
                       <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                       <div class="col-sm-6">
-                        <input class="form-control" type="file" id="formFile" name="file" id="file">
+                        <input class="form-control" type="file" id="formFile" name="file" required>
                       </div>
                     </div>
-                    
+                    <!-- <div class="row mb-3">
+                      <label for="inputDate" class="col-sm-2 col-form-label">Date Uploaded</label>
+                      <div class="col-sm-6">
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="inputTime" class="col-sm-2 col-form-label">Time Uploaded</label>
+                      <div class="col-sm-6">
+                        <input type="time" class="form-control">
+                      </div>
+                    </div> -->
     
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label"></label>
                       <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Upload File</button>
+                        <button type="submit" class="btn btn-primary" name="submit">Upload File</button>
                       </div>
                     </div>
     
@@ -287,7 +325,7 @@ $conn->close();
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Uploaded Documents</h5>
+                    <h5 class="card-title p-3">Pending Approved Document</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
@@ -297,22 +335,15 @@ $conn->close();
                             <th scope="col">Sr. no</th>
                             <th scope="col">Title</th>
                             <th scope="col">Filename</th>
-                            <th scope="col">Folder Path</th>
                             <th scope="col">Time Uploaded</th>
-                            <th scope="col">Uploaded By</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                         <?php
                   
-                        $sqll = "SELECT * FROM upload";
-
-                        $result = $conn->query($sqll);
-                        if (!$result) {
-                            die("Error executing query: " . $conn->error);
-                        }
-                        
+                              $sql = "SELECT * FROM $department WHERE uploaded_by='$email'";
+                              $result = $conn->query($sql);
 
                             
                             
@@ -324,14 +355,11 @@ $conn->close();
                                       <tr>
                                       <td>'.$count++.'</td>
                                       <td>'.$row["title"].'</td>
-                                    
-                                      <td>'.$row["folder_path"].'</td>
+                                      <td>'.$row["filename"].'</td>
                                       <td>'.$row["time_stamp"].'</td>
-                                      <td>'.$row["uploaded_by"].'</td>
-                                      // <td>
-                                      //     <span><a href="uploads/finance/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
-                                      //     <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
-                                      // </td>                                          
+                                      <td>
+                                          <span><a href="uploads/director/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                      </td>                                          
                                       </tr>
                                   ';
                               }                              
@@ -349,8 +377,7 @@ $conn->close();
                   </div>
   
                 </div>
-              </div>
-            <!-- end of Customers Card -->
+              </div><!-- End Sales Card -->
   
         </div><!-- End Left side columns -->          
           
@@ -398,11 +425,70 @@ $conn->close();
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script> -->
   <script>
+
+    $(document).ready(function() {
+        $('#mytable').DataTable();
+
+        $('.delete-button').click(function(event) {
+          event.preventDefault(); 
+          var docId = $(this).data('docid'); 
+
+          Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this file!',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'No, keep it',
+            confirmButtonText: 'Yes, delete it!',
+            reverseButtons: true,
+            confirmButtonColor: '#d33',  // This will set the confirm button to red
+            cancelButtonColor: '#3085d6' // This will set the cancel button to default blue
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = "delete_director.php?doc_id=" + docId;
+            }
+        });
+
+      });
+
+    });
+
+
     // $('#example').DataTable();
     $(document).ready(function() {
         $('#mytable').DataTable();
     });
+
+      // swal({
+      //   title: "Are you sure?",
+      //   text: "Once deleted, you will not be able to recover this imaginary file!",
+      //   icon: "warning",
+      //   buttons: true,
+      //   dangerMode: true,
+      // })
+      // .then((willDelete) => {
+      //   if (willDelete) {
+      //     document.getElementById("link1").href="delete_finance.php?doc_id='. $row['id'].'";
+      //     swal("Poof! Your imaginary file has been deleted!", {
+      //       icon: "success",
+      //     });
+      //   } else {
+      //     swal("Your imaginary file is safe!");
+      //   }
+      // });
   </script>
+  <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+  <!-- Include SweetAlert2 library via CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+
+
+  <script>
+    window.addEventListener("load", function () {
+        var load_screen = document.getElementById("loading");
+        document.body.removeChild(load_screen);
+    });
+</script>
 
 </body>
 

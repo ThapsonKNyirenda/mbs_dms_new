@@ -157,7 +157,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.html">
+        <a class="nav-link collapsed" href="upload.php">
           <i class="bi bi-upload"></i>
           <span>UPLOAD</span>
         </a>
@@ -194,7 +194,7 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" href="logout.php">
           <i class="bi bi-power"></i>
           <i class="bi bi-person-fill-gear"></i>
           <span>LOG OUT</span>
@@ -243,7 +243,7 @@
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Documents Approval</h5>
+                    <h5 class="card-title p-3">Approve Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="d-block align-items-center p-2" style="width:100%; overflow-x: auto;">
