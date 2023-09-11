@@ -252,7 +252,7 @@
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Approve Documents</h5>
+                    <h5 class="card-title p-3">Pending Uploaded Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="d-block align-items-center p-2" style="width:100%; overflow-x: auto;">
