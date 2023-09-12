@@ -55,7 +55,7 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+                    $sql = "INSERT INTO quality (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','pending')";
     
                     $result = mysqli_query($conn, $sql);
       

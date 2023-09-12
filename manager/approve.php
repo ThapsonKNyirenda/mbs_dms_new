@@ -23,7 +23,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>pending</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -115,7 +115,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Madalitso Mzunga</h6>
+              <h6>Blessing Lwazie</h6>
               <span>Admin</span>
             </li>
             <li>
@@ -157,16 +157,16 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-          <i class="bi bi-upload"></i>
-          <span>UPLOAD</span>
+        <a class="nav-link collapsed" href="department_files.php">
+        <i class="bi bi-file-earmark-text-fill"></i>
+          <span>DEPARTMENT FILES</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#.html">
-          <i class="bi bi-check-circle-fill"></i>
-          <span>APPROVE FILE</span>
+        <a class="nav-link collapsed" href="upload.php">
+        <i class="bi bi-upload"></i>
+          <span>UPLOAD FILE</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
@@ -180,15 +180,13 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="recycle.html">
           <i class="bi bi-recycle"></i>
-          <span>RECYCLE</span>
+          <span>RECYCLE BIN</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
-      
-
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person-fill-gear"></i>
+        <i class="bi bi-person"></i>
           <span>MY ACCOUNT</span>
         </a>
       </li><!-- End Profile Page Nav -->

@@ -334,6 +334,7 @@
                             <th scope="col">Title</th>
                             <th scope="col">Filename</th>
                             <th scope="col">Time Uploaded</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -355,8 +356,9 @@
                                       <td>'.$row["title"].'</td>
                                       <td>'.$row["filename"].'</td>
                                       <td>'.$row["time_stamp"].'</td>
+                                      <td>'.$row["status"].'</td>
                                       <td>
-                                          <span><a href="uploads/director/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                          <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';

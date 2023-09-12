@@ -25,6 +25,10 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
+        // $target = "uploads/";
+        // $user = $_SESSION['username'];
+        // $baseDir = __DIR__;
+        // $targetDir = $baseDir . "/uploads/director";
         $target = "uploads/";
         $user = $_SESSION['username'];
         $targetDir = $target . "director/";

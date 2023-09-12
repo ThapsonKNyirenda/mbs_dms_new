@@ -25,25 +25,36 @@
             while ($row = $result->fetch_assoc()) {
                 $title = $row['title'];
                 $filename = $row['filename'];
-                $filename = $row['uploaded_by'];
+                $uploader = $row['uploaded_by'];
                 $newdepartment = $department;
+                $folder_path= "uploads/$department";
 
-
-                // Insert the selected row into destination_table
-                
+                $time_stamp = date('Y-m-d H:i');
             }
+
+            $insertQuery = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$uploader')";
+
+            $deleteQuery = 'DELETE FROM pending_uploads WHERE id = ' . $_GET['doc_id'];
+            
+            $deleteresult = mysqli_query($conn, $deleteQuery);
+            $insertResult=mysqli_query($conn,$insertQuery);
+
+            if($insertResult && $deleteQuery){ 
+                echo "delete or insert successful";
+                die;
+            }else {
+                echo "delete or insert not successful";
+                die;
+            }
+
         } else {
             echo "0 results";
         }
-        $query = 'DELETE FROM pending_uploads
-        WHERE
-        id = '. $_GET['doc_id'];
-
-        $result= mysqli_query($conn,$query);
+ 
     }
 
 ?>
 <script type="text/javascript">
         alert("Successfully deleted.");
-        window.location = "usermanagement.php";
+        window.location = "approve.php";
 </script>

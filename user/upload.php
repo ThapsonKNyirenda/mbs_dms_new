@@ -305,7 +305,7 @@
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Pending Approved Document</h5>
+                    <h5 class="card-title p-3">Pending Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
@@ -338,7 +338,7 @@
                                       <td>'.$row["filename"].'</td>
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>
-                                          <span><a href="uploads/director/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                          <span><a href="uploads/pending/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';

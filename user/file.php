@@ -223,7 +223,7 @@
               <div class="card info-card sales-card" style="width: 100%; ">
 
                 <div class="card-body" style="width: 100%;">
-                  <h5 class="card-title">All uploaded documents</h5>
+                  <h5 class="card-title">Department Documents</h5>
                   <div class="m-3" style="display: flex; justify-content: end;">
                     
                   </div>
@@ -257,8 +257,8 @@
                                     <td>'.$row["time_stamp"].'</td>
                                     <td>'.$row["uploaded_by"].'</td>
                                     <td>
-                                        <span><a href="uploads/standards/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
-                                        <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
+                                        <span><a href="uploads/pending/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
+                                        
                                     </td>                                          
                                     </tr>
                                 ';
