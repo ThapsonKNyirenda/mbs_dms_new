@@ -27,9 +27,9 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
+        $target = "uploads/";
         $user = $_SESSION['username'];
-        $baseDir = __DIR__;
-        $targetDir = $baseDir . "/uploads/" . $department . "/";
+        $targetDir = $target . "$department/";
 
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
         $fileType = $_FILES['file']['type'];
@@ -55,7 +55,7 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO quality (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','pending')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','pending')";
     
                     $result = mysqli_query($conn, $sql);
       
@@ -79,7 +79,7 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user', 'pending')";
     
                     $result = mysqli_query($conn, $sql);
       
