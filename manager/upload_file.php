@@ -27,9 +27,10 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
-        $target = "uploads/";
         $user = $_SESSION['username'];
-        $targetDir = $target . "$department/";
+        $baseDir = __DIR__;
+        $targetDir = $baseDir . "/uploads/" . $department . "/";
+
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
         $fileType = $_FILES['file']['type'];
 
@@ -46,23 +47,58 @@
                     });
                   </script>";
         } else {
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
-                $filename = $_FILES["file"]["name"];
-                $folder_path = $targetDir;
-                $time_stamp = date('Y-m-d H:i:s');
-                
-                $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
 
-                $result = mysqli_query($conn, $sql);
-  
-                if ($result) {
-                    // Set a session variable to indicate success
-                    $_SESSION['upload'] = true;
+                if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+                    $filename = $_FILES["file"]["name"];
+                    $folder_path = $targetDir;
+                    $time_stamp = date('Y-m-d H:i:s');
+                    
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+    
+                    $result = mysqli_query($conn, $sql);
+      
+                    if ($result) {
+                        // Set a session variable to indicate success
+                        echo"done";
+                        die;
+                        $_SESSION['upload'] = true;
+                    }else {
+                        echo "not done";
+                        die;
+                    }
+    
+                    header('location: upload.php');
+                    
                 }
-
-                header('location: upload.php');
                 
+            }else{
+                if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+                    $filename = $_FILES["file"]["name"];
+                    $folder_path = $targetDir;
+                    $time_stamp = date('Y-m-d H:i:s');
+                    
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+    
+                    $result = mysqli_query($conn, $sql);
+      
+                    if ($result) {
+                        // Set a session variable to indicate success
+                        echo"done";
+                        die;
+                        $_SESSION['upload'] = true;
+                    }else {
+                        echo "not done";
+                        die;
+                    }
+    
+                    header('location: upload.php');
+                    
+                }
             }
+            
+            
         }
     }
 ?>

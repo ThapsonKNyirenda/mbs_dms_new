@@ -8,12 +8,23 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="fontawesome/css/all.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        #container{
+            margin-top: 100px;
+            width: 400px;
+            padding: 10px;
+            /* margin: auto; */
+        }
+        #login{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="container border" id="container">
         <form action="login.php" method="post">
 
-            <h3>LOGIN</h3><hr><br>
+            <h3 id="login">LOGIN</h3><hr><br>
             <label for="username" class="form-label">Username</label>
             <div class="input-group">
                 <span class="input-group-text">

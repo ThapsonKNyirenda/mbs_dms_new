@@ -323,7 +323,7 @@
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Pending Approved Document</h5>
+                    <h5 class="card-title p-3">Documents You Uploaded</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
