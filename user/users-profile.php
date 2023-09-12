@@ -156,8 +156,6 @@
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -165,38 +163,37 @@
      
 
       <li class="nav-item">
-        <a class="nav-link" href="file.php">
-          <i class="bi bi-people-fill"></i>
-          <span>Files</span>
+        <a class="nav-link collapsed" href="file.php">
+        <i class="bi bi-file-earmark-pdf"></i>
+          <span>DEPARTMENT FILES</span>
         </a>
       </li><!-- End Contact Page Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="upload.php">
-          <i class="bi bi-speedometer2"></i>
-          <span>Upload</span>
+        <i class="bi bi-cloud-upload"></i>
+          <span>UPLOAD DOCUMENT</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
+        <a class="nav-link" href="users-profile.php">
           <i class="bi bi-person-lines-fill"></i>
-          <span>Profile</span>
+          <span>PROFILE</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="logout.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
+          <span>LOGOUT</span>
         </a>
       </li><!-- End Login Page Nav -->
 
     </ul>
 
   </aside><!-- End Sidebar-->
-
 
   <main id="main" class="main">
 

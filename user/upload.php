@@ -10,6 +10,7 @@
 <?php
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];
+
 ?>
 <?php
 
@@ -57,7 +58,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>upload</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -197,7 +198,6 @@
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -205,15 +205,15 @@
      
 
       <li class="nav-item">
-        <a class="nav-link" href="file.php">
-          <i class="bi bi-people-fill"></i>
-          <span>Files</span>
+        <a class="nav-link collapsed" href="file.php">
+        <i class="bi bi-file-earmark-pdf"></i>
+          <span>DEPARTMENT FILES</span>
         </a>
       </li><!-- End Contact Page Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-          <i class="bi bi-speedometer2"></i>
-          <span>Upload</span>
+        <a class="nav-link" href="upload.php">
+        <i class="bi bi-cloud-upload"></i>
+          <span>UPLOAD DOCUMENT</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -222,21 +222,20 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.php">
           <i class="bi bi-person-lines-fill"></i>
-          <span>Profile</span>
+          <span>PROFILE</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="logout.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
+          <span>LOGOUT</span>
         </a>
       </li><!-- End Login Page Nav -->
 
     </ul>
 
   </aside><!-- End Sidebar-->
-
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
@@ -322,11 +321,12 @@
                         <tbody>
                         <?php
                   
-                              $sql = "SELECT * FROM pending_uploads WHERE uploaded_by='$email'";
-                              $result = $conn->query($sql);
+                              $sqlquery = "SELECT * FROM $department WHERE uploaded_by='$email' AND status='pending'";
+                              $result = mysqli_query($conn,$sqlquery);
 
-                            
-                            
+                              // $date="SELECT DATE_FORMAT(time_stamp, '%Y-%m-%d %H:%i') as formatted_date FROM $department";
+                              // $result = mysqli_query($conn,$date);
+
                             if ($result->num_rows > 0) {
                                 $count= 1;
                                 // output data of each row
@@ -338,7 +338,7 @@
                                       <td>'.$row["filename"].'</td>
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>
-                                          <span><a href="uploads/pending/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                          <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';

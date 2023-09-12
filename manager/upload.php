@@ -197,51 +197,49 @@
 
   </header><!-- End Header -->
 
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="index.html">
-      <i class="bi bi-file-earmark-text-fill"></i>
-      <span>FILES</span>
+    <a class="nav-link collapsed" href="approve.php">
+    <i class="bi bi-hourglass-split"></i>
+      <span>PENDING FILES</span>
     </a>
   </li><!-- End Dashboard Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="upload.php">
-      <i class="bi bi-upload"></i>
-      <span>UPLOAD</span>
+    <a class="nav-link collapsed" href="department_files.php">
+    <i class="bi bi-file-earmark-text-fill"></i>
+      <span>DEPARTMENT FILES</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#.html">
-      <i class="bi bi-check-circle-fill"></i>
-      <span>APPROVE FILE</span>
+    <a class="nav-link" href="upload.php">
+    <i class="bi bi-upload"></i>
+      <span>UPLOAD FILE</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="message.html">
+    <a class="nav-link collapsed" href="message.php">
       <i class="bi bi-messenger"></i>
       <span>MESSAGE</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="recycle.html">
+    <a class="nav-link collapsed" href="recycle.php">
       <i class="bi bi-recycle"></i>
-      <span>RECYCLE</span>
+      <span>RECYCLE BIN</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
-  
-
   <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person-fill-gear"></i>
+    <a class="nav-link collapsed" href="profile.php">
+    <i class="bi bi-person"></i>
       <span>MY ACCOUNT</span>
     </a>
   </li><!-- End Profile Page Nav -->
@@ -257,6 +255,7 @@
 </ul>
 
 </aside><!-- End Sidebar-->
+
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
@@ -358,7 +357,7 @@
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>'.$row["status"].'</td>
                                       <td>
-                                          <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                          <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';

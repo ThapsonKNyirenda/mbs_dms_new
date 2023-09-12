@@ -7,6 +7,32 @@
 
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];
+
+  if (isset($_SESSION['update'])) {
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Successfully Approved!'
+                });
+            });
+          </script>";
+    unset($_SESSION['update']);
+  }
+
+  if (isset($_SESSION['deny'])) {
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Document Denied!'
+                });
+            });
+          </script>";
+    unset($_SESSION['deny']);
+  }
+
+
  
 ?>
 
@@ -144,64 +170,65 @@
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="approve.php">
-          <i class="bi bi-file-earmark-text-fill"></i>
-          <span>PENDING FILES</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  <li class="nav-item">
+    <a class="nav-link" href="approve.php">
+    <i class="bi bi-hourglass-split"></i>
+      <span>PENDING FILES</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="department_files.php">
-        <i class="bi bi-file-earmark-text-fill"></i>
-          <span>DEPARTMENT FILES</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="department_files.php">
+    <i class="bi bi-file-earmark-text-fill"></i>
+      <span>DEPARTMENT FILES</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-        <i class="bi bi-upload"></i>
-          <span>UPLOAD FILE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="upload.php">
+    <i class="bi bi-upload"></i>
+      <span>UPLOAD FILE</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="message.html">
-          <i class="bi bi-messenger"></i>
-          <span>MESSAGE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="message.php">
+      <i class="bi bi-messenger"></i>
+      <span>MESSAGE</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="recycle.html">
-          <i class="bi bi-recycle"></i>
-          <span>RECYCLE BIN</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="recycle.php">
+      <i class="bi bi-recycle"></i>
+      <span>RECYCLE BIN</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-        <i class="bi bi-person"></i>
-          <span>MY ACCOUNT</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="profile.php">
+    <i class="bi bi-person"></i>
+      <span>MY ACCOUNT</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-power"></i>
-          <i class="bi bi-person-fill-gear"></i>
-          <span>LOG OUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="logout.php">
+      <i class="bi bi-power"></i>
+      <i class="bi bi-person-fill-gear"></i>
+      <span>LOG OUT</span>
+    </a>
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
+
 
   <main id="main" class="main" style="margin-bottom: 50px;">
 
@@ -268,9 +295,9 @@
                           <tbody>
                           <?php
                   
-                              $sql = "SELECT * FROM pending_uploads WHERE department='$department'";
+                              $sql = "SELECT * FROM $department WHERE status='pending'";
                               $result = $conn->query($sql);
-                              
+                                          
                               
                               if ($result->num_rows > 0) {
                                   $count= 1;
@@ -285,7 +312,7 @@
                                         <td>'.$row["uploaded_by"].'</td>
                                         <td>
                                         <a href="approval.php?doc_id='. $row['id'].'" class="btn btn-danger" id="btn2"><i class="bi bi-check2-square"></i></a>
-                                        <a href="#" class="btn btn-danger delete-button" data-docid="'.$row['id'].'" id="btn2"><i class="bi bi-x-circle"></i></a>
+                                        <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
                                         </td>                                          
                                         </tr>
                                     ';
@@ -352,6 +379,9 @@
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
   <script>
     // $('#example').DataTable();
     $(document).ready(function() {
@@ -359,6 +389,35 @@
     });
   </script>
 
+<script>
+  $(document).ready(function() {
+    // Initialize DataTables
+    $('#mytable').DataTable();
+
+    // Handle delete button click event
+    $('.delete-button').click(function(event) {
+        event.preventDefault(); 
+        var docId = $(this).data('docid'); 
+
+        Swal.fire({
+            // title: 'Are you sure?',
+            text: 'Are you sure you want to Decline',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'No, keep it',
+            confirmButtonText: 'Yes, decline it!',
+            reverseButtons: true,
+            confirmButtonColor: '#d33',  // This will set the confirm button to red
+            cancelButtonColor: '#3085d6' // This will set the cancel button to default blue
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = "deny.php?doc_id=" + docId;
+            }
+        });
+    });
+});
+
+</script>
 </body>
 
 </html>

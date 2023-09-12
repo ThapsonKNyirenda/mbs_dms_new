@@ -55,14 +55,12 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','pending')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','approved')";
     
                     $result = mysqli_query($conn, $sql);
       
                     if ($result) {
                         // Set a session variable to indicate success
-                        echo"done";
-                        die;
                         $_SESSION['upload'] = true;
                     }else {
                         echo "not done";
@@ -79,14 +77,12 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user', 'pending')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user', 'approved')";
     
                     $result = mysqli_query($conn, $sql);
       
                     if ($result) {
                         // Set a session variable to indicate success
-                        echo"done";
-                        die;
                         $_SESSION['upload'] = true;
                     }else {
                         echo "not done";

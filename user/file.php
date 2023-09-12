@@ -166,14 +166,14 @@
 
       <li class="nav-item">
         <a class="nav-link" href="file.php">
-          <i class="bi bi-people-fill"></i>
-          <span>Files</span>
+        <i class="bi bi-file-earmark-pdf"></i>
+          <span>DEPARTMENT FILES</span>
         </a>
       </li><!-- End Contact Page Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="upload.php">
-          <i class="bi bi-speedometer2"></i>
-          <span>Upload</span>
+        <i class="bi bi-cloud-upload"></i>
+          <span>UPLOAD DOCUMENT</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -182,14 +182,14 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.php">
           <i class="bi bi-person-lines-fill"></i>
-          <span>Profile</span>
+          <span>PROFILE</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="logout.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
+          <span>LOGOUT</span>
         </a>
       </li><!-- End Login Page Nav -->
 
@@ -242,7 +242,7 @@
                         <tbody>
                         <?php
                   
-                          $sql = "SELECT * FROM $department";
+                          $sql = "SELECT * FROM $department WHERE status='approved'";
                           $result = $conn->query($sql);
                           
                           
@@ -257,7 +257,7 @@
                                     <td>'.$row["time_stamp"].'</td>
                                     <td>'.$row["uploaded_by"].'</td>
                                     <td>
-                                        <span><a href="uploads/pending/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
+                                        <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
                                         
                                     </td>                                          
                                     </tr>

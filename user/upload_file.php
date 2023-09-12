@@ -11,12 +11,13 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-include('connection/connection.php');
+include('../connection/connection.php');
 
 $target = "uploads/";
 $user = $_SESSION['username'];
 $department = $_SESSION['department'];
-$targetDir = $target . "pending/";
+$targetDir = $target . "$department/";
+
 
 // Verify and/or create the directory
 if (!is_dir($targetDir)) {
@@ -46,13 +47,15 @@ if (isset($_POST['submit'])) {
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
             $filename = $_FILES["file"]["name"];
             $folder_path = $targetDir;
-            $time_stamp = date('Y-m-d H:i:s');
+            $time_stamp = date('Y-m-d H:i');
             
             // Using prepared statements to avoid SQL injection
-            $stmt = $conn->prepare("INSERT INTO pending_uploads (title, filename, folder_path, time_stamp, uploaded_by, department) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $title, $filename, $folder_path, $time_stamp, $user, $department);
+            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,department,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department','pending')";
+    
+            $result = mysqli_query($conn, $sql);
             
-            if ($stmt->execute()) {
+            if ($result) {
+            
                 $_SESSION['upload'] = true;
                 header('location: upload.php');
             } else {
