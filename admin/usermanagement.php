@@ -9,6 +9,7 @@
 
     $firstname=$_SESSION['firstname'];
     $lastname=$_SESSION['lastname'];
+    $role=$_SESSION['user'];
 
     include('../connection/connection.php');
 
@@ -159,7 +160,7 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?php echo $firstname.' '.$lastname?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -358,7 +359,7 @@
         </div>
                   </div>
 
-                  <div class="d-block align-items-center" style="width:100%; overflow-x: auto;">
+                  <div class="d-block align-items-center" style="overflow-x: auto;">
                     
                   <table class="table table-striped" id="mytable" >
                         <thead>
@@ -389,7 +390,7 @@
                                         <td>'.$row["role"].'</td>
                                         <td>'.$row["email"].'</td>
                                         <td>'.$row["password"].'</td>
-                                        <td><span><a href="edit_user.php?doc_id='. $row['id'].'"><button id="edit" class="btn btn-primary"><i class="bi bi-pencil-square"></i> edit</button></a></span><span> </span><span><a href="delete_user.php?doc_id='. $row['id'].'"><button class="btn btn-danger" id="danger"><i class="bi bi-trash"></i> delete</button></a></span></td>                                          
+                                        <td><span><a href="edit_user.php?doc_id='. $row['id'].'"><button id="edit" class="btn btn-primary"><i class="bi bi-pencil-square"></i> </button></a></span><span> </span><span><a href="delete_user.php?doc_id='. $row['id'].'"><button class="btn btn-danger" id="danger"><i class="bi bi-trash"></i></button></a></span></td>                                          
                                         </tr>
                                     ';
                               
@@ -399,10 +400,10 @@
                                 echo "";
                             }
                           
-                          ?>
+                        ?>
                           
                         </tbody>
-                      </table>';
+                      </table>
                   
                     <!-- <table class="table table-striped" id="mytable" >
                         <thead>
