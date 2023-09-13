@@ -29,7 +29,7 @@
         // $user = $_SESSION['username'];
         // $baseDir = __DIR__;
         // $targetDir = $baseDir . "/uploads/director";
-        $target = "uploads/";
+        $target = "../uploads/";
         $user = $_SESSION['username'];
         $targetDir = $target . "director/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);

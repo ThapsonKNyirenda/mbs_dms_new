@@ -4,10 +4,10 @@
 <?php
 
     if (!isset($_SESSION['id'])) {
-      header('location: index.php');
+      header('location: ../index.php');
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 
 <?php
@@ -23,10 +23,18 @@
         WHERE `id` = ".$_GET['doc_id'];
 
         $result = mysqli_query($conn, $query);
+
+        if($result){
+          $_SESSION['edit']=true;
+          header('location:usermanagement.php');
+      }else{
+        $_SESSION['edit_failed']=true;
+        header('location:usermanagement.php');
+      }
 		
 ?>	
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
             alert("Editing Completed Successfully!");
             window.location = "usermanagement.php";
                                 
-	</script>
+	</script> -->

@@ -36,6 +36,50 @@
             </script>";
       unset($_SESSION['creation_failed']);
     }
+
+    if (isset($_SESSION['delete'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      text: 'User Deleted!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['delete']);
+    }else if (isset($_SESSION['failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      text: 'Failed to delete!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['failed']);
+    }
+
+    if (isset($_SESSION['edit'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      text: 'User Successfully Edited!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['edit']);
+    }else if (isset($_SESSION['edit_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      text: 'Failed to Edit!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['edit_failed']);
+    }
 ?>
 
 
@@ -390,7 +434,7 @@
                                         <td>'.$row["role"].'</td>
                                         <td>'.$row["email"].'</td>
                                         <td>'.$row["password"].'</td>
-                                        <td><span><a href="edit_user.php?doc_id='. $row['id'].'"><button id="edit" class="btn btn-primary"><i class="bi bi-pencil-square"></i> </button></a></span><span> </span><span><a href="delete_user.php?doc_id='. $row['id'].'"><button class="btn btn-danger" id="danger"><i class="bi bi-trash"></i></button></a></span></td>                                          
+                                        <td><span><a href="edit_user.php?doc_id='. $row['id'].'"><button id="edit" class="btn btn-primary"><i class="bi bi-pencil-square"></i> </button></a></span><span> </span><span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="danger"><i class="bi bi-trash"></i></button></a></span></td>                                          
                                         </tr>
                                     ';
                               
@@ -496,6 +540,36 @@
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize DataTables
+    $('#mytable').DataTable();
+
+    // Handle delete button click event
+    $('.delete-button').click(function(event) {
+        event.preventDefault(); 
+        var docId = $(this).data('docid'); 
+
+        Swal.fire({
+            // title: 'Are you sure?',
+            text: 'Are you sure you want to Delete',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'No, Keep it',
+            confirmButtonText: 'Yes, Delete it!',
+            reverseButtons: true,
+            confirmButtonColor: '#d33',  // This will set the confirm button to red
+            cancelButtonColor: '#3085d6' // This will set the cancel button to default blue
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = "delete_user.php?doc_id=" + docId;
+            }
+        });
+    });
+});
+
 </script>
 
 </body>

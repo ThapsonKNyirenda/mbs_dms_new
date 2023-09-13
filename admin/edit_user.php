@@ -65,17 +65,22 @@
   <link href="assets/css/style.css" rel="stylesheet">
 
   <style>
-    @media (max-width: 600px) {
-    .card {
-        width: 90%;
-    }
-}
 
+.card{
+  width: 50%;
+  margin:auto;
+  margin-top: 30px;
+}
+    @media (max-width: 700px) {
+  .card {
+    width: 80%;
+  }
+}
   </style>
 
 </head>
 <body>
-    <div class="card" style="width:50%; margin:auto; margin-top: 30px;" id="card">
+    <div class="card">
             <div class="card-body">
               <h5 class="card-title">Edit User Details</h5>
               <hr style="margin-bottom:20px;">
@@ -122,6 +127,16 @@
                                 <label class="form-label required">Password</label>
                                 <input type="password" class="form-control" name="password" value="<?php echo $password; ?>" required>
                             </div>
+                            <!-- <div class="mb-3">
+                                <label class="form-label required">Type ypur message here</label>
+                                <textarea class="form-control"></textarea>
+                            </div> -->
+                            <div class="modal-footer">
+                                
+                                <button type="reset" class="btn btn-danger">Reset</button><span>&nbsp;</span>
+                                <button type="submit" class="btn btn-primary" name="submit">Save</button>
+                            </div>
+                        </form>
 
             </div>
         </div>

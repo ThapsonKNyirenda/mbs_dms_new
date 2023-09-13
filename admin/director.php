@@ -339,7 +339,7 @@
                     <h5 class="card-title p-3">Uploaded Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
-                    <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
+                    <div class="table-responsive align-items-center p-2"  >
                     <table class="table table-striped" id="mytable" >
                         <thead>
                           <tr>
