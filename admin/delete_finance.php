@@ -4,10 +4,10 @@
 <?php
 
     if (!isset($_SESSION['id'])) {
-      header('location: index.php');
+      header('location: ../index.php');
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 
 <?php
@@ -18,9 +18,11 @@ if (isset($_GET['doc_id'])) {
   $result = mysqli_query($conn, $query);
   
   if ($result) {
-      // Set a session variable to indicate success
-      $_SESSION['delete_success'] = true;
-  }
+    // Set a session variable to indicate success
+    $_SESSION['delete_success'] = true;
+}else{
+  $_SESSION['delete_failed'] = true;
+}
 
   header('location: finance.php');
 }

@@ -3,11 +3,11 @@
     ob_start(); // Start output buffering
 
     if (!isset($_SESSION['id'])) {
-        header('location: index.php');
+        header('location: ../index.php');
         exit(); // Ensure the rest of the script doesn't execute
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
-        $target = "uploads/";
+        $target = "../uploads/";
         $user = $_SESSION['username'];
         $targetDir = $target . "testing/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
@@ -56,8 +56,9 @@
                 if ($result) {
                     // Set a session variable to indicate success
                     $_SESSION['upload'] = true;
+                }else{
+                    $_SESSION['upload_failed'] = true;
                 }
-
                 header('location: testing.php');
                 
             }

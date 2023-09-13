@@ -25,7 +25,7 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
-        $target = "uploads/";
+        $target = "../uploads/";
         $user = $_SESSION['username'];
         $targetDir = $target . "finance/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
@@ -56,6 +56,8 @@
                 if ($result) {
                     // Set a session variable to indicate success
                     $_SESSION['upload'] = true;
+                }else{
+                    $_SESSION['upload_failed'] = true;
                 }
 
                 header('location: finance.php');

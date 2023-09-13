@@ -60,6 +60,8 @@
                 if ($result) {
                     // Set a session variable to indicate success
                     $_SESSION['upload'] = true;
+                }else{
+                    $_SESSION['upload_failed'] = true;
                 }
 
                 header('location: director.php');

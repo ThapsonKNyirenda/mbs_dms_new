@@ -13,19 +13,28 @@
       header('location: index.php');
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 
     if (isset($_SESSION['delete_success'])) {
       echo "<script>
               document.addEventListener('DOMContentLoaded', function() {
                   Swal.fire({
                       icon: 'success',
-                      title: 'Success',
                       text: 'File has been successfully deleted!'
                   });
               });
             </script>";
       unset($_SESSION['delete_success']);
+    }if (isset($_SESSION['delete_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'danger',
+                      text: 'Failed to delete!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['delete_failed']);
     }
 
     if (isset($_SESSION['upload'])) {
@@ -33,12 +42,21 @@
               document.addEventListener('DOMContentLoaded', function() {
                   Swal.fire({
                       icon: 'success',
-                      title: 'Success',
                       text: 'File has been successfully Uploaded!'
                   });
               });
             </script>";
       unset($_SESSION['upload']);
+    }else if (isset($_SESSION['upload_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'danger',
+                      text: 'Failed to upload'
+                  });
+              });
+            </script>";
+      unset($_SESSION['upload_failed']);
     }
   
 ?>
@@ -373,7 +391,7 @@
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>'.$row["uploaded_by"].'</td>
                                       <td>
-                                          <span><a href="uploads/director/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
+                                          <span><a href="../uploads/director/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
                                           <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
                                       </td>                                          
                                       </tr>
