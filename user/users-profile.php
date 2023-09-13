@@ -9,7 +9,11 @@
 ?>
 <?php
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
+
+    $firstname=$_SESSION['firstname'];
+    $lastname=$_SESSION['lastname'];
+    $role=$_SESSION['user'];
 
     if (isset($_SESSION['updated'])) {
       echo "<script>
@@ -122,13 +126,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -216,8 +220,8 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-              <h2><?php echo $_SESSION['username']?></h2>
-              <h3><?php echo $_SESSION['user']?></h3>
+              <h2><?php echo $firstname.' '.$lastname;?></h2>
+              <h3><?php echo $role;?></h3>
               <div class="social-links mt-2">
                 
               </div>
@@ -323,28 +327,28 @@
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Organization</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards">
+                        <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>">
+                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>">
+                        <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>">
+                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>" readonly>
                       </div>
                     </div>
 

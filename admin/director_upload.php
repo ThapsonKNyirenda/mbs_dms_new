@@ -3,18 +3,18 @@
     ob_start(); // Start output buffering
 
     if (!isset($_SESSION['id'])) {
-        header('location: index.php');
+        header('location: ../index.php');
         exit(); // Ensure the rest of the script doesn't execute
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title>upload</title>
     
     <!-- Include SweetAlert2 library via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">

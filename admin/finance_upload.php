@@ -3,11 +3,11 @@
     ob_start(); // Start output buffering
 
     if (!isset($_SESSION['id'])) {
-        header('location: index.php');
+        header('location: ../index.php');
         exit(); // Ensure the rest of the script doesn't execute
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

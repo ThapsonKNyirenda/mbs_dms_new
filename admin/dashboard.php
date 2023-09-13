@@ -4,10 +4,14 @@
 <?php
 
     if (!isset($_SESSION['id'])) {
-      header('location: index.php');
+      header('location: ../index.php');
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
+
+    $firstname=$_SESSION['firstname'];
+    $lastname=$_SESSION['lastname'];
+    $role=$_SESSION['user'];
 ?>
 
 
@@ -116,13 +120,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">

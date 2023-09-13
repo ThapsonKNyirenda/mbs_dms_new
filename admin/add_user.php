@@ -1,9 +1,9 @@
 <?php
-    include('connection/connection.php');
+    include('../connection/connection.php');
     session_start();
 
     if (!isset($_GET['user_id'])) {
-      header('location: logout.php');
+      header('location: ../index.php');
     }
 
     

@@ -4,10 +4,14 @@
 <?php
 
 if (!isset($_SESSION['id'])) {
-  header('location: index.php');
+  header('location: ../index.php');
 }
 
 include('../connection/connection.php');
+
+$firstname=$_SESSION['firstname'];
+    $lastname=$_SESSION['lastname'];
+    $role=$_SESSION['user'];
 
 if (isset($_SESSION['delete_success'])) {
   echo "<script>
@@ -65,7 +69,7 @@ if (isset($_SESSION['upload'])) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Testing</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -170,14 +174,14 @@ if (isset($_SESSION['upload'])) {
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></h6></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></h6></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
             <h6>
-              <?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
