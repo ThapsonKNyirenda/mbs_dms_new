@@ -22,6 +22,8 @@
                     $_SESSION['id']= $details['id'];
                     $_SESSION['user']=$details['role'];
                     $_SESSION['username']=$details['email'];
+                    $_SESSION['firstname']=$details['fName'];
+                    $_SESSION['lastname']=$details['lName'];
                     header('location: admin/dashboard.php');
 
                 }else if($email==$post_email && $password==$post_password && $role=='user'){
@@ -30,6 +32,8 @@
                     $_SESSION['user']=$details['role'];
                     $_SESSION['username']=$details['email'];
                     $_SESSION['department']=$details['department'];
+                    $_SESSION['firstname']=$details['fName'];
+                    $_SESSION['lastname']=$details['lName'];
                     header('location: user/file.php');
                 }else if($email==$post_email && $password==$post_password && $role=='manager'){
 
@@ -38,6 +42,8 @@
                     $_SESSION['user']=$details['role'];
                     $_SESSION['username']=$details['email'];
                     $_SESSION['department']=$details['department'];
+                    $_SESSION['firstname']=$details['fName'];
+                    $_SESSION['lastname']=$details['lName'];
                     header('location: manager/approve.php');
                 }
                     

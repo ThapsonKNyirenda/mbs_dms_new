@@ -7,6 +7,9 @@
 
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];
+  $firstname=$_SESSION['firstname'];
+  $lastname=$_SESSION['lastname'];
+  $role=$_SESSION['user'];
 
   if (isset($_SESSION['update'])) {
     echo "<script>
@@ -45,11 +48,12 @@
       padding: 3px;
       margin: 3px;
     }
+
   </style>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>pending</title>
+  <title>Pending</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -95,7 +99,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #fb7d3e;">
 
     <div class="d-flex align-items-center justify-content-between">
-      <div href="index.html" class="logo d-flex align-items-center">
+      <div href="#" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
         <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
       </div>
@@ -135,28 +139,28 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/messages-2.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Madalitso Mzunga</span>
+            <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Blessing Lwazie</h6>
-              <span>Admin</span>
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="profile.php">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>My Profile</span>
               </a>
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -233,7 +237,8 @@
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
-      <h1 class="mb-3"><?php 
+      <h1 class="mb-3">
+      <?php 
         if($department=='director'){
           echo"Director General's Office Department";
         }elseif ($department=='finance') {
@@ -247,8 +252,9 @@
         }elseif ($department=='metrology') {
           echo'Metrology Services Department';
         }
-      ?></h1>
-      <hr>
+      ?>
+      </h1>
+
       <nav>
         
       </nav>
@@ -280,7 +286,7 @@
                     <h5 class="card-title p-3">Pending Uploaded Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
-                    <div class="d-block align-items-center p-2" style="width:100%; overflow-x: auto;">
+                    <div class="table-responsive">
                       <table class="table table-striped" id="mytable" >
                           <thead>
                             <tr>

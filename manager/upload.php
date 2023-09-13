@@ -10,12 +10,11 @@
 <?php
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];
+  $firstname=$_SESSION['firstname'];
+  $lastname=$_SESSION['lastname'];
+  $role=$_SESSION['user'];
 ?>
 <?php
-
-    if (!isset($_SESSION['id'])) {
-      header('location: ../index.php');
-    }
 
     include('../connection/connection.php');
 
@@ -57,7 +56,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Upload</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -162,21 +161,21 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></h6></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname." ".$lastname;?></h6></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
             <h6>
-              <?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+              <a class="dropdown-item d-flex align-items-center" href="profile.php">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>My Profile</span>
               </a>
@@ -325,7 +324,7 @@
                     <h5 class="card-title p-3">Documents You Uploaded</h5>
                     <hr style="margin-bottom: 30px;">
   
-                    <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
+                    <div class="table-responsive" >
                     <table class="table table-striped" id="mytable" >
                         <thead>
                           <tr>
