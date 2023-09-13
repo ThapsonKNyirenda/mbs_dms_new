@@ -356,7 +356,7 @@
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>'.$row["status"].'</td>
                                       <td>
-                                          <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
+                                          <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';

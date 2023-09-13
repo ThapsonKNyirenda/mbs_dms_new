@@ -1,3 +1,21 @@
+<?php
+  session_start();
+
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
+
+  include('../connection/connection.php');
+?>
+
+<?php
+   $department= $_SESSION['department'];
+   $email=$_SESSION['username'];
+   $firstname=$_SESSION['firstname'];
+   $lastname=$_SESSION['lastname'];
+   $role=$_SESSION['user'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,28 +109,28 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/messages-2.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Madalitso Mzunga</span>
+            <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Madalitso Mzunga</h6>
-              <span>Admin</span>
+              <h6><?php echo $firstname.' '.$lastname?></h6>
+              <span><?php echo $role?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="profile.php">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>My Profile</span>
               </a>
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>

@@ -27,7 +27,7 @@
 <?php
     if (isset($_POST['submit'])) {
         $title = $_POST['title'];
-        $target = "uploads/";
+        $target = "../uploads/";
         $user = $_SESSION['username'];
         $targetDir = $target . "$department/";
 

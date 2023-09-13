@@ -1,9 +1,15 @@
 <?php
   session_start();
+
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
+
+  include('../connection/connection.php');
 ?>
 <?php
   // echo $_SESSION['department'];
-  include('../connection/connection.php');
+  // include('../connection/connection.php');
 
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];

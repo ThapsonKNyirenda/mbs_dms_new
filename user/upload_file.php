@@ -13,11 +13,13 @@ if (!isset($_SESSION['id'])) {
 
 include('../connection/connection.php');
 
-$target = "uploads/";
+$target = "../uploads/";
 $user = $_SESSION['username'];
+$firstname = $_SESSION['firstname'];
+$lastname = $_SESSION['lastname'];
+$name= $firstname.' '.$lastname;
 $department = $_SESSION['department'];
 $targetDir = $target . "$department/";
-
 
 // Verify and/or create the directory
 if (!is_dir($targetDir)) {

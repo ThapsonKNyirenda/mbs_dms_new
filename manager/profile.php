@@ -1,13 +1,13 @@
 <?php
   session_start();
+
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
+
+  include('../connection/connection.php');
 ?>
 <?php
-
-    if (!isset($_SESSION['id'])) {
-      header('location: index.php');
-    }
-
-    include('../connection/connection.php');
 
     if (isset($_SESSION['updated'])) {
       echo "<script>
@@ -220,7 +220,7 @@
       <h1>Profile</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="aprove.php">Home</a></li>
           <li class="breadcrumb-item">Users</li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
@@ -301,7 +301,21 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Department</div>
-                    <div class="col-lg-9 col-md-8"><?php echo $department;?></div>
+                    <div class="col-lg-9 col-md-8"><?php 
+                      if($department=='director'){
+                        echo"Director General's Office Department";
+                      }elseif ($department=='finance') {
+                        echo'Finance and Administration Department';
+                      }elseif ($department=='standards') {
+                        echo'Standards Development Department';
+                      }elseif ($department=='quality') {
+                        echo'Quality Assurance Service Department';
+                      }elseif ($department=='testing') {
+                        echo'Testing Services Department';
+                      }elseif ($department=='metrology') {
+                        echo'Metrology Services Department';
+                      }
+                    ?></div>
                   </div>
 
                   <div class="row">
@@ -342,28 +356,28 @@
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Organization</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards">
+                        <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>">
+                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>">
+                        <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>" readonly>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>">
+                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>" readonly>
                       </div>
                     </div>
 
@@ -479,6 +493,9 @@
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
 
   <!-- Template Main JS File -->
