@@ -22,10 +22,14 @@
 
         if($result){
           $_SESSION['delete']=true;
-          header('location:usermanagement.php');
+          echo '<script>
+     window.history.back();
+  </script>';
       }else{
         $_SESSION['failed']=true;
-        header('location:usermanagement.php');
+        echo '<script>
+     window.history.back();
+  </script>';
       }
     }
 

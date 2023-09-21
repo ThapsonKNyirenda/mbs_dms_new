@@ -1,10 +1,12 @@
 <?php
-    include('../connection/connection.php');
+
     session_start();
 
     if (!isset($_GET['user_id'])) {
-      header('location: ../index.php');
+    header('location: ../index.php');
     }
+    
+    include('../connection/connection.php');
 
     
     if (isset($_POST['submit'])) {

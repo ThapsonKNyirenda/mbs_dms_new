@@ -24,7 +24,9 @@ if (isset($_GET['doc_id'])) {
   $_SESSION['delete_failed'] = true;
 }
 
-  header('location: testing.php');
+  echo '<script>
+     window.history.back();
+  </script>';
 }
 
 

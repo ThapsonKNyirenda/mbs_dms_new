@@ -30,7 +30,9 @@
             // Set a session variable to indicate success
             $_SESSION['updated'] = true;
         }
-        header('location: users-profile.php');
+        echo '<script>
+     window.history.back();
+  </script>';
 		
 ?>	
 	<!-- <script type="text/javascript">

@@ -26,10 +26,14 @@
 
         if($result){
           $_SESSION['edit']=true;
-          header('location:usermanagement.php');
+          echo '<script>
+     window.location="usermanagement.php";
+  </script>';
       }else{
         $_SESSION['edit_failed']=true;
-        header('location:usermanagement.php');
+        echo '<script>
+     window.location="usermanagement.php";
+  </script>';
       }
 		
 ?>	

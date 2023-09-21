@@ -1,17 +1,23 @@
 <?php
   session_start();
+
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
 ?>
 <?php
-
-    if (!isset($_SESSION['id'])) {
-      header('location: ../index.php');
-    }
-
     include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
 
-    $firstname=$_SESSION['firstname'];
-    $lastname=$_SESSION['lastname'];
-    $role=$_SESSION['user'];
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+    }
 ?>
 
 
@@ -285,19 +291,19 @@
               </div>
             </div><!-- End Sales Card -->
 
-            <!-- Revenue Card -->
+            <!-- Sales Card -->
             <div class="col-xxl-4 col-md-4">
               <div class="card info-card sales-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">FINANCE AND ADMINISTRATION</h5>
+                  <h5 class="card-title">FINANCE</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-file-earmark-text-fill"></i>
                     </div>
                     <div class="ps-3">
-                    <?php
+                      <?php
                         $sql = "SELECT * FROM finance";
                         $result = $conn->query($sql);
                         
@@ -320,7 +326,7 @@
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- End Sales Card -->
 
             <div class="col-xxl-4 col-md-4">
               <div class="card info-card sales-card">

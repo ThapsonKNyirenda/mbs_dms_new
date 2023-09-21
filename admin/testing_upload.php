@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Title Here</title>
+    <title></title>
     
     <!-- Include SweetAlert2 library via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
@@ -27,6 +27,7 @@
         $title = $_POST['title'];
         $target = "../uploads/";
         $user = $_SESSION['username'];
+        $department = $_SESSION['department'];
         $targetDir = $target . "testing/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
         $fileType = $_FILES['file']['type'];
@@ -49,7 +50,7 @@
                 $folder_path = $targetDir;
                 $time_stamp = date('Y-m-d H:i:s');
                 
-                $sql = "INSERT INTO testing (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+                $sql = "INSERT INTO testing (title, filename, folder_path, time_stamp, uploaded_by,department,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department','approved')";
 
                 $result = mysqli_query($conn, $sql);
   

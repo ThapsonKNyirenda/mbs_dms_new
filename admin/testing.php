@@ -1,17 +1,26 @@
 <?php
   session_start();
+  
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
+?>
+<?php
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+    }
 ?>
 <?php
 
-if (!isset($_SESSION['id'])) {
-  header('location: ../index.php');
-}
-
-include('../connection/connection.php');
-
-$firstname=$_SESSION['firstname'];
-    $lastname=$_SESSION['lastname'];
-    $role=$_SESSION['user'];
 
 if (isset($_SESSION['delete_success'])) {
   echo "<script>
@@ -352,7 +361,7 @@ if (isset($_SESSION['upload'])) {
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Uploaded Documents</h5>
+                    <h5 class="card-title p-3">Documents Available</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
@@ -365,6 +374,7 @@ if (isset($_SESSION['upload'])) {
                             <th scope="col">Folder Path</th>
                             <th scope="col">Time Uploaded</th>
                             <th scope="col">Uploaded By</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -388,6 +398,7 @@ if (isset($_SESSION['upload'])) {
                                       <td>'.$row["folder_path"].'</td>
                                       <td>'.$row["time_stamp"].'</td>
                                       <td>'.$row["uploaded_by"].'</td>
+                                      <td>'.$row["status"].'</td>
                                       <td>
                                           <span><a href="../uploads/testing/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
                                           <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>

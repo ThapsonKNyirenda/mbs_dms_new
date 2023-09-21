@@ -1,17 +1,26 @@
 <?php
   session_start();
+  
+  if (!isset($_SESSION['id'])) {
+    header('location: ../index.php');
+  }
+?>
+<?php
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+    }
 ?>
 <?php
 
-    if (!isset($_SESSION['id'])) {
-      header('location: index.php');
-    }
-
-    $firstname=$_SESSION['firstname'];
-    $lastname=$_SESSION['lastname'];
-    $role=$_SESSION['user'];
-
-    include('../connection/connection.php');
 
     if (isset($_SESSION['created'])) {
       echo "<script>

@@ -1,13 +1,27 @@
 <?php
   session_start();
 ?>
+
+<?php
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $password=$row['password'];
+    }
+?>
 <?php
 
     if (!isset($_SESSION['id'])) {
       header('location: ../index.php');
     }
-
-    include('../connection/connection.php');
 
     if (isset($_SESSION['updated'])) {
       echo "<script>
@@ -20,6 +34,28 @@
               });
             </script>";
       unset($_SESSION['updated']);
+    }
+
+    if (isset($_SESSION['changed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      text: 'Password Changed Successfully!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['changed']);
+    } else if (isset($_SESSION['change_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'danger',
+                      text: 'Password not Changed!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['change_failed']);
     }
 ?>
 <!DOCTYPE html>
@@ -343,14 +379,14 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fName" type="text" class="form-control" id="fullName" value="<?php echo $fName;?>">
+                        <input name="fName" type="text" class="form-control" id="fullName" value="<?php echo $fName;?>" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="lName" type="text" class="form-control" id="fullName" value="<?php echo $lName;?>">
+                        <input name="lName" type="text" class="form-control" id="fullName" value="<?php echo $lName;?>" required>
                       </div>
                     </div>
 
@@ -438,14 +474,14 @@
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input name="password" type="password" class="form-control" id="currentPassword" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword" required>
                       </div>
                     </div>
 

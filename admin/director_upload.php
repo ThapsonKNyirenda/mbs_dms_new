@@ -31,6 +31,7 @@
         // $targetDir = $baseDir . "/uploads/director";
         $target = "../uploads/";
         $user = $_SESSION['username'];
+        $department=$_SESSION['department'];
         $targetDir = $target . "director/";
         $targetFile = $targetDir . basename($_FILES["file"]["name"]);
         $fileType = $_FILES['file']['type'];
@@ -53,7 +54,7 @@
                 $folder_path = $targetDir;
                 $time_stamp = date('Y-m-d H:i:s');
                 
-                $sql = "INSERT INTO director (title, filename, folder_path, time_stamp, uploaded_by) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user')";
+                $sql = "INSERT INTO director (title, filename, folder_path, time_stamp, uploaded_by,department,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department','approved')";
 
                 $result = mysqli_query($conn, $sql);
   
