@@ -51,7 +51,7 @@
               document.addEventListener('DOMContentLoaded', function() {
                   Swal.fire({
                       icon: 'danger',
-                      text: 'Password not Changed!'
+                      text: 'Failed to change password!'
                   });
               });
             </script>";
@@ -400,7 +400,23 @@
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>" readonly>
+                        <input name="department" type="text" class="form-control" id="Job" value="
+                        <?php 
+                            if($department=='director'){
+                              echo"Director General's Office";
+                            }elseif ($department=='finance') {
+                              echo'Finance and Administration';
+                            }elseif ($department=='standards') {
+                              echo'Standards Development';
+                            }elseif ($department=='quality') {
+                              echo'Quality Assurance Service';
+                            }elseif ($department=='testing') {
+                              echo'Testing Services';
+                            }elseif ($department=='metrology') {
+                              echo'Metrology Services';
+                            }
+                          ?>
+                        " readonly>
                       </div>
                     </div>
 
