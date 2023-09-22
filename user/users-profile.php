@@ -11,9 +11,17 @@
 
     include('../connection/connection.php');
 
-    $firstname=$_SESSION['firstname'];
-    $lastname=$_SESSION['lastname'];
-    $role=$_SESSION['user'];
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $password=$row['password'];
+    }
 
     if (isset($_SESSION['updated'])) {
       echo "<script>
@@ -220,8 +228,8 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-              <h2><?php echo $firstname.' '.$lastname;?></h2>
-              <h3><?php echo $role;?></h3>
+              <h2><?php echo $firstname.' '.$lastname?></h2>
+              <h3><?php echo $role?></h3>
               <div class="social-links mt-2">
                 
               </div>
@@ -286,7 +294,22 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Department</div>
-                    <div class="col-lg-9 col-md-8"><?php echo $department;?></div>
+                    <div class="col-lg-9 col-md-8">
+                    <?php 
+                            if($department=='director'){
+                              echo"Director General's Office";
+                            }elseif ($department=='finance') {
+                              echo'Finance and Administration';
+                            }elseif ($department=='standards') {
+                              echo'Standards Development';
+                            }elseif ($department=='quality') {
+                              echo'Quality Assurance Service';
+                            }elseif ($department=='testing') {
+                              echo'Testing Services';
+                            }elseif ($department=='metrology') {
+                              echo'Metrology Services';
+                            }
+                          ?></div>
                   </div>
 
                   <div class="row">
@@ -313,14 +336,14 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fName" type="text" class="form-control" id="fullName" value="<?php echo $fName;?>">
+                        <input name="fName" type="text" class="form-control" id="fullName" value="<?php echo $fName;?>" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="lName" type="text" class="form-control" id="fullName" value="<?php echo $lName;?>">
+                        <input name="lName" type="text" class="form-control" id="fullName" value="<?php echo $lName;?>" required>
                       </div>
                     </div>
 
@@ -328,13 +351,6 @@
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Organization</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards" readonly>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>" readonly>
                       </div>
                     </div>
 
@@ -408,14 +424,14 @@
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input name="password" type="password" class="form-control" id="currentPassword" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword" required>
                       </div>
                     </div>
 

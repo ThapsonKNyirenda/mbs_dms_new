@@ -1,11 +1,24 @@
 <?php
   session_start();
-
+  
   if (!isset($_SESSION['id'])) {
     header('location: ../index.php');
   }
+?>
+<?php
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
 
-  include('../connection/connection.php');
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $department= $_SESSION['department'];
+    }
 ?>
 <?php
 
@@ -20,6 +33,28 @@
               });
             </script>";
       unset($_SESSION['updated']);
+    }
+
+    if (isset($_SESSION['changed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      text: 'Password Changed Successfully!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['changed']);
+    } else if (isset($_SESSION['change_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'danger',
+                      text: 'Password not Changed!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['change_failed']);
     }
 ?>
 <!DOCTYPE html>
@@ -120,20 +155,20 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span><?php echo $role;?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+              <a class="dropdown-item d-flex align-items-center" href="profile.php">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>My Profile</span>
               </a>
@@ -180,19 +215,19 @@
     </a>
   </li><!-- End Contact Page Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="message.php">
       <i class="bi bi-messenger"></i>
       <span>MESSAGE</span>
     </a>
-  </li><!-- End Contact Page Nav -->
+  </li>End Contact Page Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="recycle.php">
       <i class="bi bi-recycle"></i>
       <span>RECYCLE BIN</span>
     </a>
-  </li><!-- End Contact Page Nav -->
+  </li>End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link" href="profile.php">
@@ -235,8 +270,8 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-              <h2><?php echo $_SESSION['username']?></h2>
-              <h3><?php echo $_SESSION['user']?></h3>
+              <h2><?php echo $firstname.' '.$lastname?></h2>
+              <h3><?php echo $role?></h3>
               <div class="social-links mt-2">
                 
               </div>
@@ -437,14 +472,14 @@
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input name="password" type="text" class="form-control" id="currentPassword" value="<?php echo $password;?>" readonly required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword" required>
                       </div>
                     </div>
 

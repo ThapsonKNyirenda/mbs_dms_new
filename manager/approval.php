@@ -18,12 +18,14 @@
 
         $id=$_GET['doc_id'];
 
-        $query = "UPDATE $department SET `status` = 'approved' WHERE `quality`.`id` = $id";
+        $query = "UPDATE $department SET `status` = 'approved' WHERE `id` = $id";
         $result = mysqli_query($conn,$query);
 
         if($result){
             $_SESSION['update'] = true;
-            header('location: approve.php');
+           echo '<script>
+     window.history.back();
+  </script>';
 
         }else{
 
@@ -32,7 +34,3 @@
     }
 
 ?>
-<script type="text/javascript">
-        alert("Successfully deleted.");
-        window.location = "approve.php";
-</script>

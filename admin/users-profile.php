@@ -352,7 +352,22 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Department</div>
-                    <div class="col-lg-9 col-md-8"><?php echo $department;?></div>
+                    <div class="col-lg-9 col-md-8">
+                    <?php 
+                            if($department=='director'){
+                              echo"Director General's Office";
+                            }elseif ($department=='finance') {
+                              echo'Finance and Administration';
+                            }elseif ($department=='standards') {
+                              echo'Standards Development';
+                            }elseif ($department=='quality') {
+                              echo'Quality Assurance Service';
+                            }elseif ($department=='testing') {
+                              echo'Testing Services';
+                            }elseif ($department=='metrology') {
+                              echo'Metrology Services';
+                            }
+                          ?></div>
                   </div>
 
                   <div class="row">
@@ -394,29 +409,6 @@
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Organization</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="company" type="text" class="form-control" id="company" value="Malawi Bureau of Standards" readonly>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="
-                        <?php 
-                            if($department=='director'){
-                              echo"Director General's Office";
-                            }elseif ($department=='finance') {
-                              echo'Finance and Administration';
-                            }elseif ($department=='standards') {
-                              echo'Standards Development';
-                            }elseif ($department=='quality') {
-                              echo'Quality Assurance Service';
-                            }elseif ($department=='testing') {
-                              echo'Testing Services';
-                            }elseif ($department=='metrology') {
-                              echo'Metrology Services';
-                            }
-                          ?>
-                        " readonly>
                       </div>
                     </div>
 

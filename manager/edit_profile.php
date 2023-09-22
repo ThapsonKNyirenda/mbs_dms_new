@@ -31,7 +31,9 @@
 
             $_SESSION['updated'] = true;
         }
-        header('location: profile.php');
+        echo '<script>
+     window.history.back();
+  </script>';
 		
 ?>	
 	<!-- <script type="text/javascript">

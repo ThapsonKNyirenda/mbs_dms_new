@@ -55,7 +55,7 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','approved')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,department, status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department','approved')";
     
                     $result = mysqli_query($conn, $sql);
       
@@ -67,7 +67,9 @@
                         die;
                     }
     
-                    header('location: upload.php');
+                    echo '<script>
+     window.history.back();
+  </script>';
                     
                 }
                 
@@ -77,19 +79,22 @@
                     $folder_path = $targetDir;
                     $time_stamp = date('Y-m-d H:i:s');
                     
-                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user', 'approved')";
+                    $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,department,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department', 'approved')";
     
                     $result = mysqli_query($conn, $sql);
       
                     if ($result) {
                         // Set a session variable to indicate success
                         $_SESSION['upload'] = true;
+                        
                     }else {
                         echo "not done";
                         die;
                     }
     
-                    header('location: upload.php');
+                    echo '<script>
+     window.history.back();
+  </script>';
                     
                 }
             }

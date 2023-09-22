@@ -1,21 +1,27 @@
 <?php
   session_start();
-
+  
   if (!isset($_SESSION['id'])) {
     header('location: ../index.php');
   }
-
-  include('../connection/connection.php');
 ?>
 <?php
-  // echo $_SESSION['department'];
-  // include('../connection/connection.php');
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
 
-  $department= $_SESSION['department'];
-  $email=$_SESSION['username'];
-  $firstname=$_SESSION['firstname'];
-  $lastname=$_SESSION['lastname'];
-  $role=$_SESSION['user'];
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $department= $_SESSION['department'];
+    }
+?>
+<?php
+
 
   if (isset($_SESSION['update'])) {
     echo "<script>
@@ -27,6 +33,16 @@
             });
           </script>";
     unset($_SESSION['update']);
+  } else if (isset($_SESSION['failedupdate'])) {
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Successfully Approved!'
+                });
+            });
+          </script>";
+    unset($_SESSION['failedupdate']);
   }
 
   if (isset($_SESSION['deny'])) {
@@ -39,6 +55,16 @@
             });
           </script>";
     unset($_SESSION['deny']);
+  } else if (isset($_SESSION['faileddeny'])) {
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Document Denied!'
+                });
+            });
+          </script>";
+    unset($_SESSION['faileddeny']);
   }
 
 
@@ -53,6 +79,12 @@
     #btn2{
       padding: 3px;
       margin: 3px;
+      font-size: small;
+    }
+    #btn-download{
+      padding: 3px;
+      margin: 3px;
+      font-size: small;
     }
 
   </style>
@@ -206,19 +238,19 @@
     </a>
   </li><!-- End Contact Page Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="message.php">
       <i class="bi bi-messenger"></i>
       <span>MESSAGE</span>
     </a>
-  </li><!-- End Contact Page Nav -->
+  </li>End Contact Page Nav -->
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link collapsed" href="recycle.php">
       <i class="bi bi-recycle"></i>
       <span>RECYCLE BIN</span>
     </a>
-  </li><!-- End Contact Page Nav -->
+  </li>End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="profile.php">
@@ -283,67 +315,103 @@
               </div> -->
 
             <!-- Customers Card -->
-            <form action="approve.php" method="post" enctype="multipart/form-data" >
+            <form action="approve.php" method="post" enctype="multipart/form-data">
 
-            <div class="col-xxl-4 col-md-12" style="width: 100%;">
-                <div class="card info-card sales-card" style="width: 100%; ">
-  
-                  <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Pending Uploaded Documents</h5>
-                    <hr style="margin-bottom: 30px;">
-  
-                    <div class="table-responsive">
-                      <table class="table table-striped" id="mytable" >
-                          <thead>
+    <div class="col-xxl-4 col-md-12" style="width: 100%;">
+        <div class="card info-card sales-card" style="width: 100%; ">
+
+            <div class="card-body" style="width: 100%;">
+                <h5 class="card-title p-3">Pending Uploaded Documents</h5>
+                <hr style="margin-bottom: 30px;">
+
+                <div class="table-responsive">
+                    <table class="table table-striped" id="mytable">
+                        <thead>
                             <tr>
-                              <th scope="col">Sn</th>
-                              <th scope="col">Document title</th>
-                              <th scope="col">Document Name</th>
-                              <th scope="col">Date Uploaded</th>
-                              <th scope="col">Uploaded By</th>
-                              <th scope="col">Actions</th>
+                                <th scope="col">Sn</th>
+                                <th scope="col">Document title</th>
+                                <th scope="col">Document Name</th>
+                                <th scope="col">Date Uploaded</th>
+                                <th scope="col">Uploaded By</th>
+                                <th scope="col">size</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
                             </tr>
-                          </thead>
-                          <tbody>
-                          <?php
-                  
-                              $sql = "SELECT * FROM $department WHERE status='pending'";
-                              $result = $conn->query($sql);
-                                          
-                              
-                              if ($result->num_rows > 0) {
-                                  $count= 1;
-                                  // output data of each row
-                                  while($row = $result->fetch_assoc()) {
-                                    echo'
-                                        <tr>
-                                        <td>'.$count++.'</td>
-                                        <td>'.$row["title"].'</td>
-                                        <td>'.$row["filename"].'</td>
-                                        <td>'.$row["time_stamp"].'</td>
-                                        <td>'.$row["uploaded_by"].'</td>
-                                        <td>
-                                        <a href="approval.php?doc_id='. $row['id'].'" class="btn btn-danger" id="btn2"><i class="bi bi-check2-square"></i></a>
-                                        <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
-                                        </td>                                          
-                                        </tr>
-                                    ';
-                                }                              
-                              } else {
-                                  echo "";
-                              }
-                    
-                    ?>
-                          </tbody>
-                        </table>
-                        <!-- End Table with stripped rows -->
-                      
+                        </thead>
+                        <tbody>
+                        <?php
+$sql = "SELECT * FROM $department WHERE status='pending'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $count = 1;
+    // output data of each row
+    while ($row = $result->fetch_assoc()) {
+        $filePath = '../uploads/' . $department . '/' . $row['filename'];
+        $fileSize = filesize($filePath); // Get the file size in bytes
+
+        // Format the file size for display
+        if ($fileSize >= 1024 * 1024) {
+            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+        } elseif ($fileSize >= 1024) {
+            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+        } else {
+            $formattedSize = $fileSize . ' bytes';
+        }
+
+        echo '
+            <tr>
+                <td>' . $count++ . '</td>
+                <td>' . $row["title"] . '</td>
+                <td>' . $row["filename"] . '</td>
+                <td>' . date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
+                <td>' . $row["uploaded_by"] . '</td>
+                <td>' . $formattedSize . '</td> <!-- Display the formatted file size -->
+                <td style="color: red;">' . $row["status"] . '</td>
+                <td>
+                    <div class="d-flex">
+                        <div class="col">
+                            <a href="' . $filePath . '" target="_blank" class="btn btn-success" id="btn-download"
+                                data-toggle="tooltip" data-placement="top" title="Download Document">
+                                <i class="bi bi-cloud-arrow-down"></i>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="approval.php?doc_id=' . $row['id'] . '" class="btn btn-danger" id="btn2"
+                                data-toggle="tooltip" data-placement="top" title="Approve Document">
+                                <i class="bi bi-check2-square"></i>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="delete-button" data-docid="' . $row['id'] . '"
+                                data-toggle="tooltip" data-placement="top" title="Reject Document">
+                                <button class="btn btn-danger" id="btn2">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                  </div>
-  
+                </td>
+            </tr>
+        ';
+    }
+} else {
+    echo "";
+}
+?>
+
+
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
                 </div>
-              </div><!-- End Sales Card -->
-            </form>
+            </div>
+
+        </div>
+    </div><!-- End Sales Card -->
+</form>
+
 
   
         </div><!-- End Left side columns -->          

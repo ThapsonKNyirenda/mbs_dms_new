@@ -1,21 +1,26 @@
 <?php
   session_start();
-
+  
   if (!isset($_SESSION['id'])) {
-    header('location: ../index.php'); // Go up one directory to the parent folder.
-    exit();  // Terminate script execution.
-}
-
+    header('location: ../index.php');
+  }
 ?>
 <?php
-  // echo $_SESSION['department'];
-  include('../connection/connection.php');
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
 
-  $department= $_SESSION['department'];
-  $email=$_SESSION['username'];
-  $firstname=$_SESSION['firstname'];
-  $lastname=$_SESSION['lastname'];
-  $role=$_SESSION['user'];
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $department= $_SESSION['department'];
+    }
+?>
+<?php
   
 
   if (isset($_SESSION['delete'])) {
@@ -201,19 +206,19 @@
         </a>
       </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="message.php">
           <i class="bi bi-messenger"></i>
           <span>MESSAGE</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li>End Contact Page Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="recycle.php">
           <i class="bi bi-recycle"></i>
           <span>RECYCLE BIN</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li>End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="profile.php">
@@ -288,6 +293,7 @@
                             <th scope="col">Document Name</th>
                             <th scope="col">Date Uploaded</th>
                             <th scope="col">Uploaded by</th>
+                            <th scope="col">Size</th>
                             <th scope="col>">Action</th>
                           </tr>
                         </thead>
@@ -302,14 +308,26 @@
                               $count= 1;
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
+                                $filePath = '../uploads/' . $department . '/' . $row['filename'];
+        $fileSize = filesize($filePath); // Get the file size in bytes
+
+        // Format the file size for display
+        if ($fileSize >= 1024 * 1024) {
+            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+        } elseif ($fileSize >= 1024) {
+            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+        } else {
+            $formattedSize = $fileSize . ' bytes';
+        }
                                 echo'
                                     <tr>
                                     <td>'.$count++.'</td>
                                     <td>'.$row["filename"].'</td>
-                                    <td>'.$row["time_stamp"].'</td>
+                                    <td>' . date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
                                     <td>'.$row["uploaded_by"].'</td>
+                                    <td>' . $formattedSize . '</td>
                                     <td>
-                                        <span><a href="uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down"></i></i></i></button></a></span>
+                                        <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down"></i></i></i></button></a></span>
                                         <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
                                     </td>                                          
                                     </tr>

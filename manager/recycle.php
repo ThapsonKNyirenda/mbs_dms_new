@@ -1,19 +1,24 @@
 <?php
   session_start();
-
+  
   if (!isset($_SESSION['id'])) {
     header('location: ../index.php');
   }
-
-  include('../connection/connection.php');
 ?>
-
 <?php
-   $department= $_SESSION['department'];
-   $email=$_SESSION['username'];
-   $firstname=$_SESSION['firstname'];
-   $lastname=$_SESSION['lastname'];
-   $role=$_SESSION['user'];
+    include('../connection/connection.php');
+    
+    $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $department= $_SESSION['department'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -170,19 +175,19 @@
         </a>
       </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="message.php">
           <i class="bi bi-messenger"></i>
           <span>MESSAGE</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li>End Contact Page Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="recycle.php">
           <i class="bi bi-recycle"></i>
           <span>RECYCLE BIN</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li>End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="profile.php">

@@ -236,6 +236,7 @@
                             <th scope="col">Document Name</th>
                             <th scope="col">Date Uploaded</th>
                             <th scope="col">Uploaded by</th>
+                            <th scope="col">Size</th>
                             <th scope="col>">Action</th>
                           </tr>
                         </thead>
@@ -250,12 +251,24 @@
                               $count= 1;
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
+                                $filePath = '../uploads/' . $department . '/' . $row['filename'];
+        $fileSize = filesize($filePath); // Get the file size in bytes
+
+        // Format the file size for display
+        if ($fileSize >= 1024 * 1024) {
+            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+        } elseif ($fileSize >= 1024) {
+            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+        } else {
+            $formattedSize = $fileSize . ' bytes';
+        }
                                 echo'
                                     <tr>
                                     <td>'.$count++.'</td>
                                     <td>'.$row["filename"].'</td>
-                                    <td>'.$row["time_stamp"].'</td>
+                                    <td>'. date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
                                     <td>'.$row["uploaded_by"].'</td>
+                                    <td>' . $formattedSize . '</td>
                                     <td>
                                         <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
                                         
