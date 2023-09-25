@@ -62,14 +62,18 @@
                     if ($result) {
                         // Set a session variable to indicate success
                         $_SESSION['upload'] = true;
+
+                        echo '<script>
+                            window.history.back();
+                        </script>';
                     }else {
-                        echo "not done";
-                        die;
+                        $_SESSION['failedupload'] = true;
+
+                        echo '<script>
+                            window.history.back();
+                        </script>';
                     }
     
-                    echo '<script>
-     window.history.back();
-  </script>';
                     
                 }
                 

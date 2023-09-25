@@ -48,6 +48,17 @@
               });
             </script>";
       unset($_SESSION['upload']);
+    }else if (isset($_SESSION['failedupload'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Failed',
+                      text: 'File has not been uploaded!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['failedupload']);
     }
   
 ?>

@@ -34,6 +34,39 @@
               });
             </script>";
       unset($_SESSION['updated']);
+    }elseif (isset($_SESSION['failedupdated'])) {
+      echo "<script>
+      document.addEventListener('DOMContentLoaded', function() {
+          Swal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: 'Profile Detailed failed to update!'
+          });
+      });
+    </script>";
+unset($_SESSION['failedupdated']); 
+    }
+
+    if (isset($_SESSION['changed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      text: 'Password Changed Successfully!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['changed']);
+    } else if (isset($_SESSION['change_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      text: 'Use correct password!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['change_failed']);
     }
 ?>
 <!DOCTYPE html>
@@ -364,7 +397,7 @@
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>" readonly>
+                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>">
                       </div>
                     </div>
 

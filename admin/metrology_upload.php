@@ -61,7 +61,9 @@
                     $_SESSION['upload_failed'] = true;
                 }
 
-                header('location: metrology.php');
+                echo '<script>
+              window.history.back();
+            </script>';
                 
             }
         }

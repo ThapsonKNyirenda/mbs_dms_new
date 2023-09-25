@@ -29,6 +29,8 @@
         if ($result) {
             // Set a session variable to indicate success
             $_SESSION['updated'] = true;
+        } else {
+          $_SESSION['failedupdated'] = true;
         }
         echo '<script>
      window.history.back();

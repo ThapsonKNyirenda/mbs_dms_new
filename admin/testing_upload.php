@@ -60,7 +60,9 @@
                 }else{
                     $_SESSION['upload_failed'] = true;
                 }
-                header('location: testing.php');
+                echo '<script>
+              window.history.back();
+            </script>';
                 
             }
         }

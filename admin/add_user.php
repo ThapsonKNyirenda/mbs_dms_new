@@ -27,7 +27,9 @@
         } else {
             $_SESSION['creation_failed']=true;
         }
-        header('location: usermanagement.php');
+        echo '<script>
+              window.history.back();
+            </script>';
     }
 
 ?>

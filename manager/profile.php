@@ -33,6 +33,17 @@
               });
             </script>";
       unset($_SESSION['updated']);
+    }elseif (isset($_SESSION['failedupdated'])) {
+      echo "<script>
+      document.addEventListener('DOMContentLoaded', function() {
+          Swal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: 'Profile Detailed failed to update!'
+          });
+      });
+    </script>";
+unset($_SESSION['failedupdated']); 
     }
 
     if (isset($_SESSION['changed'])) {
@@ -49,8 +60,8 @@
       echo "<script>
               document.addEventListener('DOMContentLoaded', function() {
                   Swal.fire({
-                      icon: 'danger',
-                      text: 'Password not Changed!'
+                      icon: 'error',
+                      text: 'Use correct password!'
                   });
               });
             </script>";
@@ -396,13 +407,6 @@
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Department</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="department" type="text" class="form-control" id="Job" value="<?php echo $department;?>" readonly>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
                       <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>" readonly>
@@ -412,7 +416,7 @@
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>" readonly>
+                        <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email;?>">
                       </div>
                     </div>
 
@@ -469,10 +473,10 @@
                   <!-- Change Password Form -->
                   <form action="change_pass.php" method="POST">
 
-                    <div class="row mb-3">
+                  <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="text" class="form-control" id="currentPassword" value="<?php echo $password;?>" readonly required>
+                        <input name="password" type="password" class="form-control" id="currentPassword" required>
                       </div>
                     </div>
 

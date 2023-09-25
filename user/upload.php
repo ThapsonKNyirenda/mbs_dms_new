@@ -335,16 +335,16 @@
                                 while($row = $result->fetch_assoc()) {
 
                                   $filePath = '../uploads/' . $department . '/' . $row['filename'];
-        $fileSize = filesize($filePath); // Get the file size in bytes
+                                    $fileSize = filesize($filePath); // Get the file size in bytes
 
-        // Format the file size for display
-        if ($fileSize >= 1024 * 1024) {
-            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-        } elseif ($fileSize >= 1024) {
-            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-        } else {
-            $formattedSize = $fileSize . ' bytes';
-        }
+                                    // Format the file size for display
+                                    if ($fileSize >= 1024 * 1024) {
+                                        $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                    } elseif ($fileSize >= 1024) {
+                                        $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                    } else {
+                                        $formattedSize = $fileSize . ' bytes';
+                                    }
                                   echo'
                                       <tr>
                                       <td>'.$count++.'</td>

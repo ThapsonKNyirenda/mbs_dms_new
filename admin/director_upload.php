@@ -65,7 +65,9 @@
                     $_SESSION['upload_failed'] = true;
                 }
 
-                header('location: director.php');
+                echo '<script>
+              window.history.back();
+            </script>';
                 
             }
         }

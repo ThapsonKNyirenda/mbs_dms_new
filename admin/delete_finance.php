@@ -1,37 +1,47 @@
 <?php
-  session_start();
+session_start();
+
+include('../connection/connection.php');
 ?>
 <?php
+$id = $_GET['doc_id'];
 
-    if (!isset($_SESSION['id'])) {
-      header('location: ../index.php');
+// Retrieve the filename associated with the document ID
+$sql = "SELECT filename FROM finance WHERE id=$id";
+$result = mysqli_query($conn, $sql);
+
+if ($row = mysqli_fetch_assoc($result)) {
+    $filename = $row['filename'];
+
+    // Delete the record from the database
+    $deleteSql = "DELETE FROM finance WHERE id=$id";
+    $deleteResult = mysqli_query($conn, $deleteSql);
+
+    // Check if the database record was deleted successfully
+    if ($deleteResult) {
+        // Define the path to the file on the server
+        $filePath = '../uploads/finance/' . $filename;
+
+        // Check if the file exists on the server
+        if (file_exists($filePath)) {
+            // Delete the file from the server
+            if (unlink($filePath)) {
+                $_SESSION['delete_success'] = true;
+                echo '<script>window.history.back();</script>';
+            } else {
+                $_SESSION['delete_failed'] = true;
+                echo '<script>window.history.back();</script>';
+            }
+        } else {
+            $_SESSION['delete_failed'] = true;
+                echo '<script>window.history.back();</script>';
+        }
+    } else {
+        $_SESSION['delete_failed'] = true;
+                echo '<script>window.history.back();</script>';
     }
-
-    include('../connection/connection.php');
-?>
-
-<?php
-
-
-if (isset($_GET['doc_id'])) {
-  $query = 'DELETE FROM finance WHERE id = ' . $_GET['doc_id'];
-  $result = mysqli_query($conn, $query);
-  
-  if ($result) {
-    // Set a session variable to indicate success
-    $_SESSION['delete_success'] = true;
-}else{
-  $_SESSION['delete_failed'] = true;
+} else {
+    $_SESSION['delete_failed'] = true;
+                echo '<script>window.history.back();</script>';
 }
-
-  echo '<script>
-     window.history.back();
-  </script>';
-}
-
-
 ?>
-<!-- <script type="text/javascript">
-        alert("Successfully deleted.");
-        window.location = "director.php";
-</script> -->

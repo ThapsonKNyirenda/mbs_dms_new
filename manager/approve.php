@@ -37,8 +37,8 @@
     echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
-                    icon: 'success',
-                    text: 'Successfully Approved!'
+                    icon: 'error',
+                    text: 'Failed to approve!'
                 });
             });
           </script>";
@@ -59,8 +59,8 @@
     echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
-                    icon: 'success',
-                    text: 'Document Denied!'
+                    icon: 'error',
+                    text: 'Failed to deny!'
                 });
             });
           </script>";
@@ -132,7 +132,7 @@
 </head>
 
 <body>
-
+<div id="loading"></div>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #fb7d3e;">
 
@@ -497,6 +497,14 @@ if ($result->num_rows > 0) {
     });
 });
 
+</script>
+
+<script>
+    window.addEventListener("load", function () {
+        var load_screen = document.getElementById("loading");
+        document.body.removeChild(load_screen);
+    });
+    
 </script>
 </body>
 
