@@ -24,48 +24,95 @@
 
 <?php
 
-    if (isset($_SESSION['delete_success'])) {
-      echo "<script>
-              document.addEventListener('DOMContentLoaded', function() {
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Success',
-                      text: 'File has been successfully deleted!'
-                  });
+if (isset($_SESSION['delete_success'])) {
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'File has been successfully deleted!'
               });
-            </script>";
-      unset($_SESSION['delete_success']);
-    }
+          });
+        </script>";
+  unset($_SESSION['delete_success']);
+}
 
-    if (isset($_SESSION['upload'])) {
-      echo "<script>
-              document.addEventListener('DOMContentLoaded', function() {
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Success',
-                      text: 'File has been successfully Uploaded!'
-                  });
+if (isset($_SESSION['upload'])) {
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'File has been successfully Uploaded!'
               });
-            </script>";
-      unset($_SESSION['upload']);
-    }else if (isset($_SESSION['failedupload'])) {
-      echo "<script>
-              document.addEventListener('DOMContentLoaded', function() {
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Failed',
-                      text: 'File has not been uploaded!'
-                  });
+          });
+        </script>";
+  unset($_SESSION['upload']);
+}elseif (isset($_SESSION['upload_failed'])) {
+  # code...
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Failed to Upload the file!'
               });
-            </script>";
-      unset($_SESSION['failedupload']);
-    }
+          });
+        </script>";
+  unset($_SESSION['upload_failed']);
+}
+
+if (isset($_SESSION['edit'])) {
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Permissions Changed for File!'
+              });
+          });
+        </script>";
+  unset($_SESSION['edit']);
+}elseif (isset($_SESSION['edit_failed'])) {
+  # code...
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Failed to Change Fie Permissions!'
+              });
+          });
+        </script>";
+  unset($_SESSION['edit_failed']);
+}
+
+if (isset($_SESSION['file_failed'])) {
+  echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Use Accepted File Type'
+              });
+          });
+        </script>";
+  unset($_SESSION['file_failed']);
+}
+
+unset($_SESSION['upload_failed']);
   
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- <link rel="stylesheet" type="text/css" href="sweet-alert/sweetalert.css">
   <script src="sweet-alert/sweetalert.min.js"></script> -->
@@ -139,7 +186,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -199,10 +246,11 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -219,53 +267,53 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+    
+  <li class="nav-item">
     <a class="nav-link collapsed" href="approve.php">
     <i class="bi bi-hourglass-split"></i>
-      <span>PENDING FILES</span>
+      <span>Pending Files</span>
     </a>
   </li><!-- End Dashboard Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="department_files.php">
     <i class="bi bi-file-earmark-text-fill"></i>
-      <span>DEPARTMENT FILES</span>
+      <span>Department Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link" href="upload.php">
     <i class="bi bi-upload"></i>
-      <span>UPLOAD FILE</span>
+      <span>Upload Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="message.php">
-      <i class="bi bi-messenger"></i>
-      <span>MESSAGE</span>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="members.php">
+    <i class="bi bi-people"></i>
+      <span>Department Members</span>
     </a>
-  </li>End Contact Page Nav -->
-
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="recycle.php">
-      <i class="bi bi-recycle"></i>
-      <span>RECYCLE BIN</span>
-    </a>
-  </li>End Contact Page Nav -->
+  </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="profile.php">
     <i class="bi bi-person"></i>
-      <span>MY ACCOUNT</span>
+      <span>Profile</span>
     </a>
   </li><!-- End Profile Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="logout.php">
-      <i class="bi bi-power"></i>
-      <i class="bi bi-person-fill-gear"></i>
-      <span>LOG OUT</span>
-    </a>
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
   </li><!-- End Login Page Nav -->
 
 </ul>
@@ -279,7 +327,10 @@
       <hr>
       <nav>
         <ol class="breadcrumb">
-          
+        <li class="breadcrumb-item"><a href="approve.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="approve.php">Pending Files</a></li>
+          <li class="breadcrumb-item"><a href="departmen_files.php">Department Files</a></li>
+          <li class="breadcrumb-item active">Upload Files</li>
           
         </ol>
       </nav>
@@ -295,11 +346,11 @@
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-12">
               <div class="card info-card sales-card p-3">
-                <form action="upload_file.php" enctype="multipart/form-data" method="POST">
+              <form id="myForm" action="upload_file.php" enctype="multipart/form-data" method="POST" onsubmit="return validateForm();">
                     <div class="row mb-3">
-                      <label for="inputText" class="col-sm-2 col-form-label">Document Title</label>
+                      <label for="inputText" class="col-sm-2 col-form-label">Document Description</label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control" placeholder="Doc. Title" name="title" required>
+                        <input type="text" class="form-control" placeholder="Short Description" name="title" required>
                       </div>
                     </div>
                     
@@ -307,21 +358,102 @@
                       <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                       <div class="col-sm-6">
                         <input class="form-control" type="file" id="formFile" name="file" required>
-                      </div>
-                    </div>
-                    <!-- <div class="row mb-3">
-                      <label for="inputDate" class="col-sm-2 col-form-label">Date Uploaded</label>
-                      <div class="col-sm-6">
-                        <input type="date" class="form-control">
+                        <div>
+                          <b>Allowed Files (.pdf, .docx, .xlsx, .jpg)</b>
+                        </div>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="inputTime" class="col-sm-2 col-form-label">Time Uploaded</label>
+                      <label for="userSelect" class="col-sm-2 col-form-label">Select Users</label>
                       <div class="col-sm-6">
-                        <input type="time" class="form-control">
+                      <?php
+                        $sql = "SELECT * FROM users WHERE department = '$department' AND role = 'user'";
+                        $user_result = mysqli_query($conn, $sql);                          
+                        ?>
+                        <select class="form-control select2-multi" id="userSelect" name="users[]" multiple="multiple">
+                        <!-- <option value="None">None</option> -->
+                            <?php 
+                            if (mysqli_num_rows($user_result) > 0) {
+                                while($user = mysqli_fetch_assoc($user_result)) {
+                                    if ($user['email'] != $email) {
+                                        echo "<option value='".$user['email']."'>".$user['fName'].' '.$user['lName']."</option>";  // Assuming 'email' is the user's email and 'fName' and 'lName' are the user's first name and last name respectively
+                                    }
+                                }
+                            } else {
+                              echo "<option value='No Any'>No Any</option>"; 
+                            }
+                            ?>
+                        </select>
+                        <div>
+                          <!-- <i>Ctrl+a to select all</i>,&nbsp;<i>Ctrl+click to select or unselect</i> -->
+                          <button type="button" id="selectAll" class="btn btn-primary">Select All</button>
+                        <button type="button" id="deselectAll" class="btn btn-secondary">Deselect All</button>
+
+
+                        <script>
+                        $(document).ready(function() {
+                            $('.select2-multi').select2();
+
+                            $('#selectAll').click(function() {
+                                $('#userSelect option').prop('selected', true);
+                                $('#userSelect').trigger('change');
+                            });
+
+                            $('#deselectAll').click(function() {
+                                $('#userSelect option').prop('selected', false);
+                                $('#userSelect').trigger('change');
+                            });
+                        });
+                        </script>
                       </div>
-                    </div> -->
-    
+                  </div>
+                  
+                  <div class="row mb-3">
+                    <label for="userSelect" class="col-sm-2 col-form-label">Select Category</label>
+                    <div class="col-sm-6">
+                    <select class="form-control" id="userSelect" name="category" required>
+                            
+                            <?php 
+                            // Check the value of the $department variable
+                            if ($department === 'finance') {
+                                // Display options for finance
+                                echo "<option value='Budget'>Budget</option>";
+                                echo "<option value='Payroll'>Payroll</option>";
+                                echo "<option value='Procurement'>Procurement</option>";
+                            } elseif ($department === 'director') {
+                                // Display options for director
+                                echo "<option value='Planning'>Planning</option>";
+                                echo "<option value='Operation'>Operation</option>";
+                                echo "<option value='Research'>Research</option>";
+                            }elseif ($department === 'testing') {
+                              // Display options for testing
+                              echo "<option value='Test Plan'>Test Plan</option>";
+                              echo "<option value='Test Data'>Test Data</option>";
+                              echo "<option value='Test Report'>Test Report</option>";
+                            } elseif ($department === 'metrology') {
+                              // Display options for metrology
+                              echo "<option value='Instrument Manual'>Instrument Manual</option>";
+                              echo "<option value='Training Materials'>Training Materials</option>";
+                              echo "<option value='Measurement Data'>Measurement Data</option>";
+                          }elseif ($department === 'quality') {
+                            // Display options for quality
+                            echo "<option value='Quality Control'>Quality Control</option>";
+                            echo "<option value='Training Materials'>Training Materials</option>";
+                            echo "<option value='Product Specifications'>Product Specifications</option>";
+                        }elseif ($department === 'standards') {
+                          // Display options for standards
+                          echo "<option value='Technical Reports'>Technical Reports</option>";
+                          echo "<option value='Meeting Records'>Meeting Records</option>";
+                          echo "<option value='Standards OPerations'>Standard Operations</option>";
+                      }else{
+                        echo "";
+                      }
+                            ?>
+
+                        </select>
+                    </div>
+                </div>
+
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label"></label>
                       <div class="col-sm-10">
@@ -346,11 +478,10 @@
                         <thead>
                           <tr>
                             <th scope="col">Sr. no</th>
-                            <th scope="col">Title</th>
                             <th scope="col">Filename</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Time Uploaded</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -365,29 +496,30 @@
                             if ($result->num_rows > 0) {
                                 $count= 1;
                                 // output data of each row
-
-                                $filePath = '../uploads/' . $department . '/' . $row['filename'];
-        $fileSize = filesize($filePath); // Get the file size in bytes
-
-        // Format the file size for display
-        if ($fileSize >= 1024 * 1024) {
-            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-        } elseif ($fileSize >= 1024) {
-            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-        } else {
-            $formattedSize = $fileSize . ' bytes';
-        }
                                 while($row = $result->fetch_assoc()) {
+                                    $filePath = '../uploads/' . $department . '/' . $row['filename'];
+                                    // $fileSize = filesize($filePath); // Get the file size in bytes
+
+                                    // // Format the file size for display
+                                    // if ($fileSize >= 1024 * 1024) {
+                                    //     $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                    // } elseif ($fileSize >= 1024) {
+                                    //     $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                    // } else {
+                                    //     $formattedSize = $fileSize . ' bytes';
+                                    // }
+
+                                    $statusColor = $row["status"] == "pending" ? "red" : ($row["status"] == "approved" ? "green" : "black"); 
                                   echo'
                                       <tr>
                                       <td>'.$count++.'</td>
-                                      <td>'.$row["title"].'</td>
                                       <td>'.$row["filename"].'</td>
+                                      <td>'.$row["title"].'</td>
+                                      <td>'.$row["category"].'</td>
                                       <td>' . date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
-                                      <td>' . $formattedSize . '</td>
-                                      <td>'.$row["status"].'</td>
                                       <td>
                                           <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
+                                          <span><a href="edit_file.php?file_id='.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-pencil-square"></i> Edit</button></a></span>
                                       </td>                                          
                                       </tr>
                                   ';
@@ -447,7 +579,7 @@
   <script src="assets/js/main.js"></script>
 
   <!-- custom script for datatables -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
@@ -517,6 +649,24 @@
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
 </script>
 
 </body>

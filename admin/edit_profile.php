@@ -14,13 +14,13 @@
 
         $fName=$_POST['fName'];
         $lName=$_POST['lName'];
-        $department=$_POST['department'];
-        $role=$_POST['role'];
+        // $department=$_POST['department'];
+        // $role=$_POST['role'];
         $email=$_POST['email'];
         // $password=$_POST['password'];
 
 		
-        $query = "UPDATE `users` SET `fName` = '$fName',`lName` = '$lName',`email` = '$email',`department` = '$department'
+        $query = "UPDATE `users` SET `fName` = '$fName',`lName` = '$lName',`email` = '$email' 
         WHERE `id` = ".$_SESSION['id'];
 
         $result = mysqli_query($conn, $query);

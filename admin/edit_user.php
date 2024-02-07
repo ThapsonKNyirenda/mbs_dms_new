@@ -112,7 +112,7 @@
                               <label class="form-label required">Role</label>
                               <div class="col-sm-12">
                                 <select class="form-select" aria-label="Default select example" name="role" required>
-                                  <option value="user">User</option>
+                                  <option value="user">Officer</option>
                                   <option value="manager">Manager</option>
                                   <option value="admin">Admin</option>
                                 </select>

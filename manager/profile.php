@@ -127,7 +127,7 @@ unset($_SESSION['failedupdated']);
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -186,10 +186,11 @@ unset($_SESSION['failedupdated']);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -206,53 +207,53 @@ unset($_SESSION['failedupdated']);
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+    
+  <li class="nav-item">
     <a class="nav-link collapsed" href="approve.php">
-      <i class="bi bi-file-earmark-text-fill"></i>
-      <span>PENDING FILES</span>
+    <i class="bi bi-hourglass-split"></i>
+      <span>Pending Files</span>
     </a>
   </li><!-- End Dashboard Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="department_files.php">
-    <i class="bi bi-hourglass-split"></i>
-      <span>DEPARTMENT FILES</span>
+    <i class="bi bi-file-earmark-text-fill"></i>
+      <span>Department Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="upload.php">
     <i class="bi bi-upload"></i>
-      <span>UPLOAD FILE</span>
+      <span>Upload Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="message.php">
-      <i class="bi bi-messenger"></i>
-      <span>MESSAGE</span>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="members.php">
+    <i class="bi bi-people"></i>
+      <span>Department Members</span>
     </a>
-  </li>End Contact Page Nav -->
-
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="recycle.php">
-      <i class="bi bi-recycle"></i>
-      <span>RECYCLE BIN</span>
-    </a>
-  </li>End Contact Page Nav -->
+  </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link" href="profile.php">
     <i class="bi bi-person"></i>
-      <span>MY ACCOUNT</span>
+      <span>Profile</span>
     </a>
   </li><!-- End Profile Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="logout.php">
-      <i class="bi bi-power"></i>
-      <i class="bi bi-person-fill-gear"></i>
-      <span>LOG OUT</span>
-    </a>
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
   </li><!-- End Login Page Nav -->
 
 </ul>
@@ -266,8 +267,11 @@ unset($_SESSION['failedupdated']);
       <h1>Profile</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="aprove.php">Home</a></li>
-          <li class="breadcrumb-item">Users</li>
+        <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+        <li class="breadcrumb-item"><a href="approve.php">Pending Files</a></li>
+          <li class="breadcrumb-item"><a href="departmen_files.php">Department Files</a></li>
+          <li class="breadcrumb-item"><a href="upload.php">Upload Files</a></li>
+          <li class="breadcrumb-item"><a href="members.php">Department Members</a></li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
       </nav>
@@ -544,6 +548,24 @@ unset($_SESSION['failedupdated']);
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
   </script>
 
 </body>

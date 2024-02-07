@@ -10,10 +10,28 @@
 --------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
+  --bs-body-font-family: 'Raleway', sans-serif;
+}
+
+.btn{
+  background-color: #fb7d3e;
+}
+
+a.page-link{
+  background-color: white;
+  color: black;
+}
+
+.active>.page-link, .page-link.active {
+  z-index: 3;
+  color: white;
+  background-color: #fb7d3e;
+  border-color: #fb7d3e;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: 'Raleway', sans-serif;
   background: #f6f9ff;
   color: #444444;
 }
@@ -51,11 +69,6 @@ h6 {
     padding: 20px;
   }
 }
-@media (max-width: 600px) {
-  body {
-      font-size: 14px;
-  }
-}
 
 /*--------------------------------------------------------------
 # Page Title
@@ -81,7 +94,7 @@ h6 {
   right: 15px;
   bottom: 15px;
   z-index: 99999;
-  background: #4154f1;
+  background: #fb7d3e;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -95,7 +108,7 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
+  background: #fbbc9d;
   color: #fff;
 }
 
@@ -1282,14 +1295,4 @@ h6 {
   text-align: center;
   font-size: 13px;
   color: #012970;
-}
-
-/* ====================================================================================== */
-                                   /* MODIFICATIONS */
-
-.files {
-  background-image: url('assets/img/folder.png');
-  background-size: 20px;
-  background-repeat: no-repeat;
-  /* Add other styles as needed */
 }

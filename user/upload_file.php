@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -17,6 +18,7 @@ $target = "../uploads/";
 $user = $_SESSION['username'];
 $firstname = $_SESSION['firstname'];
 $lastname = $_SESSION['lastname'];
+$uploader = $firstname . ' ' . $lastname;
 $name= $firstname.' '.$lastname;
 $department = $_SESSION['department'];
 $targetDir = $target . "$department/";
@@ -28,47 +30,170 @@ if (!is_dir($targetDir)) {
     } 
 }
 
+
 if (isset($_POST['submit'])) {
+    
+    $selected_users_str = "";  // Create an empty string
+if(isset($_POST['users'])) {
+    
+    $selected_users = $_POST['users'];
+    $selected_users_str = implode(",", $selected_users);  // Concatenate the array values with comma
+}
+
+    
     $title = $_POST['title'];
+    $category = $_POST['category'];
     $targetFile = $targetDir . basename($_FILES["file"]["name"]);
     $fileType = $_FILES['file']['type'];
 
-    if ($fileType !== 'application/pdf') {
-        echo "<script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Only PDFs are allowed.'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.history.back();
-                    }
-                });
-              </script>";
-    } else {
+
+    if ($fileType == 'application/pdf') {
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
             $filename = $_FILES["file"]["name"];
             $folder_path = $targetDir;
             $time_stamp = date('Y-m-d H:i');
             
             // Using prepared statements to avoid SQL injection
-            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,department,status) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$department','pending')";
+            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,uploader, department,category, status, selected_users) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$uploader','$department','$category','pending', '$selected_users_str')";
     
             $result = mysqli_query($conn, $sql);
             
             if ($result) {
             
                 $_SESSION['upload'] = true;
-                header('location: upload.php');
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
             } else {
-                echo "Error inserting record: " . $stmt->error;
+                $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
             }
             
-            $stmt->close();
+        } else {
+            // echo "Failed to upload due to error: " . $_FILES["file"]["error"];
+            $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+        }
+
+
+    }else if ($fileType == 'image/jpeg') {
+        
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+            $filename = $_FILES["file"]["name"];
+            $folder_path = $targetDir;
+            $time_stamp = date('Y-m-d H:i');
+            
+            // Using prepared statements to avoid SQL injection
+            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,uploader, department,category, status, selected_users) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$uploader','$department','$category','pending', '$selected_users_str')";
+    
+            $result = mysqli_query($conn, $sql);
+            
+            if ($result) {
+            
+                $_SESSION['upload'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            } else {
+                $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            }
             
         } else {
-            echo "Failed to upload due to error: " . $_FILES["file"]["error"];
+            // echo "Failed to upload due to error: " . $_FILES["file"]["error"];
+            $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
         }
+    }else if ($fileType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+       
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+            $filename = $_FILES["file"]["name"];
+            $folder_path = $targetDir;
+            $time_stamp = date('Y-m-d H:i');
+            
+            // Using prepared statements to avoid SQL injection
+            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,uploader, department,category, status, selected_users) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$uploader','$department','$category','pending', '$selected_users_str')";
+    
+            $result = mysqli_query($conn, $sql);
+            
+            if ($result) {
+            
+                $_SESSION['upload'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            } else {
+                $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            }
+            
+        } else {
+            // echo "Failed to upload due to error: " . $_FILES["file"]["error"];
+            $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+        }
+    }if ($fileType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+       
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+            $filename = $_FILES["file"]["name"];
+            $folder_path = $targetDir;
+            $time_stamp = date('Y-m-d H:i');
+            
+            // Using prepared statements to avoid SQL injection
+            $sql = "INSERT INTO $department (title, filename, folder_path, time_stamp, uploaded_by,uploader, department,category, status, selected_users) VALUES ('$title','$filename', '$folder_path','$time_stamp','$user','$uploader','$department','$category','pending', '$selected_users_str')";
+    
+            $result = mysqli_query($conn, $sql);
+            
+            if ($result) {
+            
+                $_SESSION['upload'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            } else {
+                $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+            }
+            
+        } else {
+            // echo "Failed to upload due to error: " . $_FILES["file"]["error"];
+            $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+            </script>';
+        }
+    } else {
+        $_SESSION['upload_failed'] = true;
+                // header('location: upload.php');
+                echo '<script>
+              window.history.back();
+        </script>';
     }
 }
 

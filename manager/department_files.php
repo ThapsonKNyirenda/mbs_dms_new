@@ -119,7 +119,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <div href="#" class="logo d-flex align-items-center">
       <img src="assets/img/mbs logo.png" alt="logo">
-      <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+      <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
     </div>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -173,10 +173,11 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="logout.php">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
-            </a>
+          <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
           </li>
 
         </ul><!-- End Profile Dropdown Items -->
@@ -191,64 +192,65 @@
 
  
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="approve.php">
-        <i class="bi bi-hourglass-split"></i>
-          <span>PENDING FILES</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+    
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="approve.php">
+    <i class="bi bi-hourglass-split"></i>
+      <span>Pending Files</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link" href="department_files.php">
-        <i class="bi bi-file-earmark-text-fill"></i>
-          <span>DEPARTMENT FILES</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link" href="department_files.php">
+    <i class="bi bi-file-earmark-text-fill"></i>
+      <span>Department Files</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-        <i class="bi bi-upload"></i>
-          <span>UPLOAD FILE</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="upload.php">
+    <i class="bi bi-upload"></i>
+      <span>Upload Files</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="message.php">
-          <i class="bi bi-messenger"></i>
-          <span>MESSAGE</span>
-        </a>
-      </li>End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="members.php">
+    <i class="bi bi-people"></i>
+      <span>Department Members</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="recycle.php">
-          <i class="bi bi-recycle"></i>
-          <span>RECYCLE BIN</span>
-        </a>
-      </li>End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="profile.php">
+    <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="profile.php">
-        <i class="bi bi-person"></i>
-          <span>MY ACCOUNT</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-power"></i>
-          <i class="bi bi-person-fill-gear"></i>
-          <span>LOG OUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
+
 
   <main id="main" class="main" style="margin-bottom: 50px;">
 
@@ -270,9 +272,11 @@
       ?></h1>
       <hr>
       <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="approve.php">Home</a></li>
-          <li class="breadcrumb-item active">Files</li>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+        <li class="breadcrumb-item"><a href="approve.php">Pending Files</a></li>
+          <li class="breadcrumb-item active">Department Files</li>
+          
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -302,9 +306,10 @@
                           <tr>
                             <th scope="col">Sn</th>
                             <th scope="col">Document Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Date Uploaded</th>
                             <th scope="col">Uploaded by</th>
-                            <th scope="col">Size</th>
                             <th scope="col>">Action</th>
                           </tr>
                         </thead>
@@ -320,26 +325,27 @@
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
                                 $filePath = '../uploads/' . $department . '/' . $row['filename'];
-                                $fileSize = filesize($filePath); // Get the file size in bytes
+                                // $fileSize = filesize($filePath); // Get the file size in bytes
 
-                                // Format the file size for display
-                                if ($fileSize >= 1024 * 1024) {
-                                    $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-                                } elseif ($fileSize >= 1024) {
-                                    $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-                                } else {
-                                    $formattedSize = $fileSize . ' bytes';
-                                }
+                                // // Format the file size for display
+                                // if ($fileSize >= 1024 * 1024) {
+                                //     $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                // } elseif ($fileSize >= 1024) {
+                                //     $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                // } else {
+                                //     $formattedSize = $fileSize . ' bytes';
+                                // }
                                 echo'
                                     <tr>
                                     <td>'.$count++.'</td>
                                     <td>'.$row["filename"].'</td>
-                                    <td>' . date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
-                                    <td>'.$row["uploaded_by"].'</td>
-                                    <td>' . $formattedSize . '</td>
+                                    <td>'.$row["title"].'</td>
+                                    <td>'.$row["category"].'</td>
+                                    <td>'. date('Y-M-d H:i:s', strtotime($row["time_stamp"])) . '</td>
+                                    <td>'.$row["uploader"].'</td>
                                     <td>
-                                        <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down"></i></i></i></button></a></span>
-                                        <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i></button></a></span>
+                                        <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i></i></i>View</button></a></span>
+                                        <span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-trash"></i>Delete</button></a></span>
                                     </td>                                          
                                     </tr>
                                 ';
@@ -458,6 +464,24 @@
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
 </script>
 
 </body>

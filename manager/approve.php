@@ -139,7 +139,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div href="#" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -198,10 +198,11 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -218,59 +219,58 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+    
+  <li class="nav-item">
     <a class="nav-link" href="approve.php">
     <i class="bi bi-hourglass-split"></i>
-      <span>PENDING FILES</span>
+      <span>Pending Files</span>
     </a>
   </li><!-- End Dashboard Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="department_files.php">
     <i class="bi bi-file-earmark-text-fill"></i>
-      <span>DEPARTMENT FILES</span>
+      <span>Department Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="upload.php">
     <i class="bi bi-upload"></i>
-      <span>UPLOAD FILE</span>
+      <span>Upload Files</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="message.php">
-      <i class="bi bi-messenger"></i>
-      <span>MESSAGE</span>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="members.php">
+    <i class="bi bi-people"></i>
+      <span>Department Members</span>
     </a>
-  </li>End Contact Page Nav -->
-
-  <!-- <li class="nav-item">
-    <a class="nav-link collapsed" href="recycle.php">
-      <i class="bi bi-recycle"></i>
-      <span>RECYCLE BIN</span>
-    </a>
-  </li>End Contact Page Nav -->
+  </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="profile.php">
     <i class="bi bi-person"></i>
-      <span>MY ACCOUNT</span>
+      <span>Profile</span>
     </a>
   </li><!-- End Profile Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="logout.php">
-      <i class="bi bi-power"></i>
-      <i class="bi bi-person-fill-gear"></i>
-      <span>LOG OUT</span>
-    </a>
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
   </li><!-- End Login Page Nav -->
 
 </ul>
 
 </aside><!-- End Sidebar-->
-
 
   <main id="main" class="main" style="margin-bottom: 50px;">
 
@@ -294,7 +294,11 @@
       </h1>
 
       <nav>
-        
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+        <li class="breadcrumb-item active">Pending Files</li>
+          
+        </ol>
       </nav>
     </div><!-- End Page Title -->
 
@@ -329,76 +333,76 @@
                         <thead>
                             <tr>
                                 <th scope="col">Sn</th>
-                                <th scope="col">Document title</th>
                                 <th scope="col">Document Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Date Uploaded</th>
                                 <th scope="col">Uploaded By</th>
-                                <th scope="col">size</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php
-$sql = "SELECT * FROM $department WHERE status='pending'";
-$result = $conn->query($sql);
+                          $sql = "SELECT * FROM $department WHERE status='pending'";
+                          $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    $count = 1;
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-        $filePath = '../uploads/' . $department . '/' . $row['filename'];
-        $fileSize = filesize($filePath); // Get the file size in bytes
+                          if ($result->num_rows > 0) {
+                              $count = 1;
+                              // output data of each row
+                              while ($row = $result->fetch_assoc()) {
+                                  $filePath = '../uploads/' . $department . '/' . $row['filename'];
+                                  // $fileSize = filesize($filePath); // Get the file size in bytes
 
-        // Format the file size for display
-        if ($fileSize >= 1024 * 1024) {
-            $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-        } elseif ($fileSize >= 1024) {
-            $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-        } else {
-            $formattedSize = $fileSize . ' bytes';
-        }
+                                  // // Format the file size for display
+                                  // if ($fileSize >= 1024 * 1024) {
+                                  //     $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                  // } elseif ($fileSize >= 1024) {
+                                  //     $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                  // } else {
+                                  //     $formattedSize = $fileSize . ' bytes';
+                                  // }
 
-        echo '
-            <tr>
-                <td>' . $count++ . '</td>
-                <td>' . $row["title"] . '</td>
-                <td>' . $row["filename"] . '</td>
-                <td>' . date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
-                <td>' . $row["uploaded_by"] . '</td>
-                <td>' . $formattedSize . '</td> <!-- Display the formatted file size -->
-                <td style="color: red;">' . $row["status"] . '</td>
-                <td>
-                    <div class="d-flex">
-                        <div class="col">
-                            <a href="' . $filePath . '" target="_blank" class="btn btn-success" id="btn-download"
-                                data-toggle="tooltip" data-placement="top" title="Download Document">
-                                <i class="bi bi-cloud-arrow-down"></i>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="approval.php?doc_id=' . $row['id'] . '" class="btn btn-danger" id="btn2"
-                                data-toggle="tooltip" data-placement="top" title="Approve Document">
-                                <i class="bi bi-check2-square"></i>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="delete-button" data-docid="' . $row['id'] . '"
-                                data-toggle="tooltip" data-placement="top" title="Reject Document">
-                                <button class="btn btn-danger" id="btn2">
-                                    <i class="bi bi-x"></i>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        ';
-    }
-} else {
-    echo "";
-}
-?>
+                                  echo '
+                                      <tr>
+                                          <td>' . $count++ . '</td>
+                                          <td>' . $row["filename"] . '</td>
+                                          <td>' . $row["title"] . '</td>
+                                          <td>' . $row["category"] . '</td>
+                                          <td>'. date('Y-M-d H:i:s', strtotime($row["time_stamp"])) . '</td>
+                                          <td>'.$row["uploader"].'</td>
+                                          <td style="color: red;">' . $row["status"] . '</td>
+                                          <td>
+                                              <div class="d-flex">
+                                                  <div class="col">
+                                                      <a href="' . $filePath . '" target="_blank" class="btn btn-success" id="btn-download"
+                                                          data-toggle="tooltip" data-placement="top" title="View Document">
+                                                          <i class="bi bi-eye"></i>
+                                                      </a>
+                                                  </div>
+                                                  <div class="col">
+                                                      <a href="approval.php?doc_id=' . $row['id'] . '" class="btn btn-danger" id="btn2"
+                                                          data-toggle="tooltip" data-placement="top" title="Approve Document">
+                                                          <i class="bi bi-check2-square"></i>
+                                                      </a>
+                                                  </div>
+                                                  <div class="col">
+                                                      <a href="#" class="delete-button" data-docid="' . $row['id'] . '"
+                                                          data-toggle="tooltip" data-placement="top" title="Reject Document">
+                                                          <button class="btn btn-danger" id="btn2">
+                                                              <i class="bi bi-x"></i>
+                                                          </button>
+                                                      </a>
+                                                  </div>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  ';
+                              }
+                          } else {
+                              echo "";
+                          }
+                          ?>
 
 
                         </tbody>
@@ -505,6 +509,23 @@ if ($result->num_rows > 0) {
         document.body.removeChild(load_screen);
     });
     
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
 </script>
 </body>
 

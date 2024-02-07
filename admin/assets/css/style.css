@@ -16,7 +16,6 @@
 .btn{
   background-color: #fb7d3e;
 }
-
 a.page-link{
   background-color: white;
   color: black;
@@ -25,8 +24,8 @@ a.page-link{
 .active>.page-link, .page-link.active {
   z-index: 3;
   color: white;
-  background-color: #fb7d3e;
-  border-color: #fb7d3e;
+  /* background-color: #fb7d3e;
+  border-color: #fb7d3e; */
 }
 
 body {

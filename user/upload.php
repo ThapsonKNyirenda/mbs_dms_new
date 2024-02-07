@@ -5,20 +5,26 @@
     header('location: ../index.php'); // Go up one directory to the parent folder.
     exit();  // Terminate script execution.
 }
-
+include('../connection/connection.php');
 ?>
 <?php
   $department= $_SESSION['department'];
   $email=$_SESSION['username'];
 
-?>
-<?php
+  $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
 
-    if (!isset($_SESSION['id'])) {
-      header('location: ../index.php');
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $password=$row['password'];
     }
 
-    include('connection/connection.php');
+?>
+<?php
 
     if (isset($_SESSION['delete_success'])) {
       echo "<script>
@@ -44,7 +50,59 @@
               });
             </script>";
       unset($_SESSION['upload']);
+    }elseif (isset($_SESSION['upload_failed'])) {
+      # code...
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Failed to Upload the file!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['upload_failed']);
     }
+
+    if (isset($_SESSION['edit'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: 'Permissions Changed for File!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['edit']);
+    }elseif (isset($_SESSION['edit_failed'])) {
+      # code...
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Failed to Change Fie Permissions!'
+                  });
+              });
+            </script>";
+      unset($_SESSION['edit_failed']);
+    }
+
+    if (isset($_SESSION['file_failed'])) {
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Use Accepted File Type'
+                  });
+              });
+            </script>";
+      unset($_SESSION['file_failed']);
+    }
+
+    unset($_SESSION['upload_failed']);
   
 ?>
 <!DOCTYPE html>
@@ -52,13 +110,20 @@
 
 <head>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   <!-- <link rel="stylesheet" type="text/css" href="sweet-alert/sweetalert.css">
   <script src="sweet-alert/sweetalert.min.js"></script> -->
   <!-- <script src="sweet-alert/sweetalert.min.js"></script> -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>upload</title>
+  <title>Upload</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -86,9 +151,8 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script> -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css"> 
-
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css">
+  
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.3.1
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -124,7 +188,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -163,14 +227,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username'];?></h6></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></h6></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-            <h6>
-              <?php echo $_SESSION['username'];?></h6>
-              <span><?php echo $_SESSION['user'];?></span>
+          <li class="dropdown-header">
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span>Officer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -184,10 +247,10 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" onclick="event.preventDefault(); confirmLogout();">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span>Logout</span>
+            </a>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -198,55 +261,78 @@
 
   </header><!-- End Header -->
 
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+ <!-- ======= Sidebar ======= -->
+ <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-     
+ 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="file.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Shared Files</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link" href="upload.php">
+    <i class="bi bi-cloud-upload"></i>
+      <span>Upload Documents</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="file.php">
-        <i class="bi bi-file-earmark-pdf"></i>
-          <span>DEPARTMENT FILES</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-      <li class="nav-item">
-        <a class="nav-link" href="upload.php">
-        <i class="bi bi-cloud-upload"></i>
-          <span>UPLOAD DOCUMENT</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  
 
-      
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="users-profile.php">
+      <i class="bi bi-person-lines-fill"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
-          <i class="bi bi-person-lines-fill"></i>
-          <span>PROFILE</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>LOGOUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
+
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
-      <h1 class="mb-3">DIRECTOR GENERAL OFFICE DEPARTMENT</h1>
+      <h1 class="mb-3">
+      <?php 
+        if($department=='director'){
+          echo"Director General's Office Department";
+        }elseif ($department=='finance') {
+          echo'Finance and Administration Department';
+        }elseif ($department=='standards') {
+          echo'Standards Development Department';
+        }elseif ($department=='quality') {
+          echo'Quality Assurance Service Department';
+        }elseif ($department=='testing') {
+          echo'Testing Services Department';
+        }elseif ($department=='metrology') {
+          echo'Metrology Services Department';
+        }
+      ?>
+      </h1>
       <hr>
       <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="file.php">Home</a></li>
-          <li class="breadcrumb-item">Department/</li>
-          <li class="breadcrumb-item active">Director General Office</li>
-          
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="file.php">Shared Files</a></li>
+          <li class="breadcrumb-item active">Upload Documents</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -261,11 +347,11 @@
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-12">
               <div class="card info-card sales-card p-3">
-                <form action="upload_file.php" enctype="multipart/form-data" method="POST">
+              <form id="myForm" action="upload_file.php" enctype="multipart/form-data" method="POST" onsubmit="return validateForm();">
                     <div class="row mb-3">
-                      <label for="inputText" class="col-sm-2 col-form-label">Document Title</label>
+                      <label for="inputText" class="col-sm-2 col-form-label">Document Description</label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control" placeholder="Doc. Title" name="title" required>
+                        <input type="text" class="form-control" placeholder="Short Description" name="title" required>
                       </div>
                     </div>
                     
@@ -273,8 +359,106 @@
                       <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                       <div class="col-sm-6">
                         <input class="form-control" type="file" id="formFile" name="file" required>
+                        <div>
+                          <b>Allowed Files (.pdf, .docx, .xlsx, .jpg)</b>
+                        </div>
                       </div>
                     </div>
+                    <div class="row mb-3">
+                      <label for="userSelect" class="col-sm-2 col-form-label">Select Users</label>
+                      <div class="col-sm-6">
+                      <?php
+                        $sql = "SELECT * FROM users WHERE department = '$department' AND role = 'user'";
+                        $user_result = mysqli_query($conn, $sql);                          
+                        ?>
+                        <select class="form-control select2-multi" id="userSelect" name="users[]" multiple="multiple">
+                            <!-- <option value="None">None</option> -->
+                            <?php 
+                            if (mysqli_num_rows($user_result) > 0) {
+                                while($user = mysqli_fetch_assoc($user_result)) {
+                                    if ($user['email'] != $email) {
+                                        echo "<option value='".$user['email']."'>".$user['fName'].' '.$user['lName']."</option>";  // Assuming 'email' is the user's email and 'fName' and 'lName' are the user's first name and last name respectively
+                                    }
+                                }
+                            } else {
+                              echo "<option value='No Any'>No Any</option>"; 
+                            }
+                            ?>
+                        </select>
+                        <div>
+                          <!-- <i>Ctrl+a to select all</i>,&nbsp;<i>Ctrl+click to select or unselect</i> -->
+                        </div>
+
+                        <button type="button" id="selectAll" class="btn btn-primary">Select All</button>
+                        <button type="button" id="deselectAll" class="btn btn-secondary">Deselect All</button>
+
+
+                        <script>
+                        $(document).ready(function() {
+                            $('.select2-multi').select2();
+
+                            $('#selectAll').click(function() {
+                                $('#userSelect option').prop('selected', true);
+                                $('#userSelect').trigger('change');
+                            });
+
+                            $('#deselectAll').click(function() {
+                                $('#userSelect option').prop('selected', false);
+                                $('#userSelect').trigger('change');
+                            });
+                        });
+                        </script>
+
+                      </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="userSelect" class="col-sm-2 col-form-label">Select Category</label>
+                    <div class="col-sm-6">
+                    <select class="form-control" id="userSelect" name="category" required>
+                            
+                            <?php 
+                            // Check the value of the $department variable
+                            if ($department === 'finance') {
+                                // Display options for finance
+                                echo "<option value='Budget'>Budget</option>";
+                                echo "<option value='Payroll'>Payroll</option>";
+                                echo "<option value='Procurement'>Procurement</option>";
+                            } elseif ($department === 'director') {
+                                // Display options for director
+                                echo "<option value='Planning'>Planning</option>";
+                                echo "<option value='Operation'>Operation</option>";
+                                echo "<option value='Research'>Research</option>";
+                            }elseif ($department === 'testing') {
+                              // Display options for testing
+                              echo "<option value='Test Plan'>Test Plan</option>";
+                              echo "<option value='Test Data'>Test Data</option>";
+                              echo "<option value='Test Report'>Test Report</option>";
+                            } elseif ($department === 'metrology') {
+                              // Display options for metrology
+                              echo "<option value='Instrument Manual'>Instrument Manual</option>";
+                              echo "<option value='Training Materials'>Training Materials</option>";
+                              echo "<option value='Measurement Data'>Measurement Data</option>";
+                          }elseif ($department === 'quality') {
+                            // Display options for quality
+                            echo "<option value='Quality Control'>Quality Control</option>";
+                            echo "<option value='Training Materials'>Training Materials</option>";
+                            echo "<option value='Product Specifications'>Product Specifications</option>";
+                        }elseif ($department === 'standards') {
+                          // Display options for standards
+                          echo "<option value='Technical Reports'>Technical Reports</option>";
+                          echo "<option value='Meeting Records'>Meeting Records</option>";
+                          echo "<option value='Standards OPerations'>Standard Operations</option>";
+                      }else{
+                        echo "";
+                      }
+                            ?>
+
+                        </select>
+                    </div>
+                </div>
+
+
                     <!-- <div class="row mb-3">
                       <label for="inputDate" class="col-sm-2 col-form-label">Date Uploaded</label>
                       <div class="col-sm-6">
@@ -304,7 +488,7 @@
                 <div class="card info-card sales-card" style="width: 100%; ">
   
                   <div class="card-body" style="width: 100%;">
-                    <h5 class="card-title p-3">Pending Documents</h5>
+                    <h5 class="card-title p-3">Your Uploaded Documents</h5>
                     <hr style="margin-bottom: 30px;">
   
                     <div class="table-responsive align-items-center p-2" style="width:100%; overflow-x: auto;" >
@@ -312,10 +496,10 @@
                         <thead>
                           <tr>
                             <th scope="col">Sr. no</th>
-                            <th scope="col">Title</th>
                             <th scope="col">Filename</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Time Uploaded</th>
-                            <th scope="col">Size</th>
                             <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                           </tr>
@@ -323,7 +507,7 @@
                         <tbody>
                         <?php
                   
-                              $sqlquery = "SELECT * FROM $department WHERE uploaded_by='$email' AND status='pending'";
+                              $sqlquery = "SELECT * FROM $department WHERE uploaded_by='$email'";
                               $result = mysqli_query($conn,$sqlquery);
 
                               // $date="SELECT DATE_FORMAT(time_stamp, '%Y-%m-%d %H:%i') as formatted_date FROM $department";
@@ -335,36 +519,41 @@
                                 while($row = $result->fetch_assoc()) {
 
                                   $filePath = '../uploads/' . $department . '/' . $row['filename'];
-                                    $fileSize = filesize($filePath); // Get the file size in bytes
+                                    // $fileSize = filesize($filePath); // Get the file size in bytes
 
-                                    // Format the file size for display
-                                    if ($fileSize >= 1024 * 1024) {
-                                        $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-                                    } elseif ($fileSize >= 1024) {
-                                        $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-                                    } else {
-                                        $formattedSize = $fileSize . ' bytes';
-                                    }
-                                  echo'
-                                      <tr>
-                                      <td>'.$count++.'</td>
-                                      <td>'.$row["title"].'</td>
-                                      <td>'.$row["filename"].'</td>
-                                      <td>'. date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
-                                      <td>' . $formattedSize . '</td>
-                                      <td>'.$row["status"].'</td>
-                                      <td>
-                                          <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-cloud-arrow-down-fill"></i></i></button></a></span>
-                                      </td>                                          
-                                      </tr>
-                                  ';
+                                    // // Format the file size for display
+                                    // if ($fileSize >= 1024 * 1024) {
+                                    //     $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                    // } elseif ($fileSize >= 1024) {
+                                    //     $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                    // } else {
+                                    //     $formattedSize = $fileSize . ' bytes';
+                                    // }
+                                    $statusColor = $row["status"] == "pending" ? "red" : ($row["status"] == "approved" ? "green" : "black");  // default to black if neither
+
+                                    echo'
+                                        <tr>
+                                            <td>'.$count++.'</td>
+                                            <td>'.$row["filename"].'</td>
+                                            <td>'.$row["title"].'</td>
+                                            <td>'.$row["category"].'</td>
+                                            <td>'. date('Y-M-d H:i:s', strtotime($row["time_stamp"])) . '</td>
+                                            <td style="color: '.$statusColor.'">'.$row["status"].'</td>
+                                            <td>
+                                                <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-eye"></i> View</button></a></span>
+                                                <span><a href="edit_file.php?file_id='.$row['id'].'"><button class="btn btn-danger" id="btn2"><i class="bi bi-pencil-square"></i> Edit</button></a></span>
+                                            </td>                                          
+                                        </tr>
+                                    ';
+                                    
                               }                              
                             } else {
                                 echo "";
                             }
                           
                           ?>
-                          
+
+                          <!-- Modal -->                    
                         </tbody>
                       </table>
                         <!-- End Table with stripped rows -->
@@ -413,13 +602,20 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+
   <!-- custom script for datatables -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
   <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script> -->
+
+    <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+  <!-- Include SweetAlert2 library via CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+
   <script>
 
     $(document).ready(function() {
@@ -473,17 +669,45 @@
       //   }
       // });
   </script>
-  <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-  <!-- Include SweetAlert2 library via CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
-
 
   <script>
     window.addEventListener("load", function () {
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
+
+</script>
+
+<script>
+//   function validateForm() {
+//     let selectElement = document.getElementById('userSelect');
+//     let selectedOptions = selectElement.selectedOptions;
+
+//     if (selectedOptions.length === 0) {
+//         alert('Please select at least one user from the dropdown.');
+//         return false; // Prevents the form from submitting
+//     }
+//     return true;
+// }
+
 </script>
 
 </body>

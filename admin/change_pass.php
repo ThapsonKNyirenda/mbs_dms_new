@@ -7,7 +7,7 @@
       header('location: ../index.php');
     }
 
-    include('connection/connection.php');
+    include('../connection/connection.php');
 ?>
 
 <?php

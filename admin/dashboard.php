@@ -87,7 +87,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -225,10 +225,11 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
-        </a>
+      <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
       </li><!-- End Login Page Nav -->
 
     </ul>
@@ -267,7 +268,7 @@
                     </div>
                     <div class="ps-3">
                       <?php
-                        $sql = "SELECT * FROM director";
+                        $sql = "SELECT * FROM director WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -304,7 +305,7 @@
                     </div>
                     <div class="ps-3">
                       <?php
-                        $sql = "SELECT * FROM finance";
+                        $sql = "SELECT * FROM finance WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -340,7 +341,7 @@
                     </div>
                     <div class="ps-3">
                     <?php
-                        $sql = "SELECT * FROM standards";
+                        $sql = "SELECT * FROM standards WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -376,7 +377,7 @@
                     </div>
                     <div class="ps-3">
                     <?php
-                        $sql = "SELECT * FROM quality";
+                        $sql = "SELECT * FROM quality WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -412,7 +413,7 @@
                     </div>
                     <div class="ps-3">
                     <?php
-                        $sql = "SELECT * FROM testing";
+                        $sql = "SELECT * FROM testing WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -448,7 +449,7 @@
                     </div>
                     <div class="ps-3">
                     <?php
-                        $sql = "SELECT * FROM metrology";
+                        $sql = "SELECT * FROM metrology WHERE status='approved'";
                         $result = $conn->query($sql);
                         
                         if ($result->num_rows > 0) {
@@ -511,11 +512,31 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
   <script>
     window.addEventListener("load", function () {
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
     
 </script>
 </body>

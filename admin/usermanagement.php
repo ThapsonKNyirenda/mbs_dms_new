@@ -99,7 +99,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>user management</title>
+  <title>User Management</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -168,7 +168,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -272,12 +272,12 @@
           </li>
           <li>
             <a href="finance.php">
-              <i class="bi bi-circle"></i><span>FInance and Administration</span>
+              <i class="bi bi-circle"></i><span>Finance and Administration</span>
             </a>
           </li>
           <li>
             <a href="standards.php">
-              <i class="bi bi-circle"></i><span>standards Development</span>
+              <i class="bi bi-circle"></i><span>Standards Development</span>
             </a>
           </li>
           <li>
@@ -306,10 +306,11 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php?user_id=<?php echo $_SESSION['user'];?>">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
-        </a>
+      <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
       </li><!-- End Login Page Nav -->
 
     </ul>
@@ -323,7 +324,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-          <li class="breadcrumb-item active">user management</li>
+          <li class="breadcrumb-item active">User Management</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -379,7 +380,7 @@
                               <label class="form-label required">Role</label>
                               <div class="col-sm-12">
                                 <select class="form-select" aria-label="Default select example" name="role" required>
-                                  <option value="user">User</option>
+                                  <option value="user">Officer</option>
                                   <option value="manager">Manager</option>
                                   <option value="admin">Admin</option>
                                 </select>
@@ -422,7 +423,6 @@
                             <th scope="col">Department</th>
                             <th scope="col">Role</th>
                             <th scope="col">email</th>
-                            <th scope="col">Password</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -435,6 +435,29 @@
                             if ($result->num_rows > 0) {
                                 // output data of each row
                                 while($row = $result->fetch_assoc()) {
+
+                            
+                                    
+                            if($row["department"]=='director'){
+                              $row["department"]="Director General's Office";
+                            }elseif ($row["department"]=='finance') {
+                              $row["department"]='Finance and Administration';
+                            }elseif ($row["department"]=='standards') {
+                              $row["department"]='Standards Development';
+                            }elseif ($row["department"]=='quality') {
+                              $row["department"]='Quality Assurance Service';
+                            }elseif ($row["department"]=='testing') {
+                              $row["department"]='Testing Services';
+                            }elseif ($row["department"]=='metrology') {
+                              $row["department"]='Metrology Services';
+                            }
+                         
+
+                            if($row["role"] == 'user'){
+                              $row["role"] = 'Officer';
+                          }
+                  
+                            
                                     echo'
                                         <tr>
                                         <td>'.$row["fName"].'</td>
@@ -442,7 +465,6 @@
                                         <td>'.$row["department"].'</td>
                                         <td>'.$row["role"].'</td>
                                         <td>'.$row["email"].'</td>
-                                        <td>'.$row["password"].'</td>
                                         <td><span><a href="edit_user.php?doc_id='. $row['id'].'"><button id="edit" class="btn btn-primary"><i class="bi bi-pencil-square"></i> </button></a></span><span> </span><span><a href="#" class="delete-button" data-docid="'.$row['id'].'"><button class="btn btn-danger" id="danger"><i class="bi bi-trash"></i></button></a></span></td>                                          
                                         </tr>
                                     ';
@@ -542,6 +564,24 @@
     $(document).ready(function() {
         $('#mytable').DataTable();
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
   </script>
 
 <script>
@@ -580,6 +620,15 @@
 });
 
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php if(isset($_SESSION['created']) || isset($_SESSION['creation_failed'])): ?>
+        $("#myModal").modal("hide");
+    <?php endif; ?>
+});
+</script>
+
 
 </body>
 

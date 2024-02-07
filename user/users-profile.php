@@ -128,7 +128,7 @@ unset($_SESSION['failedupdated']);
     <div class="d-flex align-items-center justify-content-between">
       <div href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/mbs logo.png" alt="logo">
-        <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+        <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
       </div>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -173,7 +173,7 @@ unset($_SESSION['failedupdated']);
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?php echo $firstname.' '.$lastname;?></h6>
-              <span><?php echo $role;?></span>
+              <span>Officer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -187,10 +187,11 @@ unset($_SESSION['failedupdated']);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+            <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -201,53 +202,61 @@ unset($_SESSION['failedupdated']);
 
   </header><!-- End Header -->
 
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+ <!-- ======= Sidebar ======= -->
+ <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-     
+ 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="file.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Shared Files</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="upload.php">
+    <i class="bi bi-cloud-upload"></i>
+      <span>Upload Documents</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="file.php">
-        <i class="bi bi-file-earmark-pdf"></i>
-          <span>DEPARTMENT FILES</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-        <i class="bi bi-cloud-upload"></i>
-          <span>UPLOAD DOCUMENT</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  
 
-      
+  <li class="nav-item">
+    <a class="nav-link" href="users-profile.php">
+      <i class="bi bi-person-lines-fill"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link" href="users-profile.php">
-          <i class="bi bi-person-lines-fill"></i>
-          <span>PROFILE</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>LOGOUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
 
   <main id="main" class="main">
 
     <div class="pagetitle">
       <h1>Profile</h1>
       <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="file.php">Home</a></li>
-          <li class="breadcrumb-item">Users</li>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="file.php">Shared Files</a></li>
+          <li class="breadcrumb-item"><a href="upload.php">Upload Documents</a></li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
       </nav>
@@ -262,7 +271,7 @@ unset($_SESSION['failedupdated']);
 
               <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
               <h2><?php echo $firstname.' '.$lastname?></h2>
-              <h3><?php echo $role?></h3>
+              <h3>Officer</h3>
               <div class="social-links mt-2">
                 
               </div>
@@ -347,7 +356,7 @@ unset($_SESSION['failedupdated']);
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Role</div>
-                    <div class="col-lg-9 col-md-8"><?php echo $role;?></div>
+                    <div class="col-lg-9 col-md-8">Officer</div>
                   </div>
 
                   <!-- <div class="row">
@@ -390,7 +399,7 @@ unset($_SESSION['failedupdated']);
                     <div class="row mb-3">
                       <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="role" type="text" class="form-control" id="Phone" value="<?php echo $role;?>" readonly>
+                        <input name="role" type="text" class="form-control" id="Phone" value="Officer" readonly>
                       </div>
                     </div>
 
@@ -522,6 +531,24 @@ unset($_SESSION['failedupdated']);
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
   </script>
 
 </body>

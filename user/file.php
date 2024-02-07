@@ -9,9 +9,22 @@
 ?>
 <?php
   // echo $_SESSION['department'];
-  include('connection/connection.php');
+  include('../connection/connection.php');
 
   $department= $_SESSION['department'];
+  $email=$_SESSION['username'];
+
+  $id=$_SESSION['id'];
+    $sql="SELECT * FROM users WHERE id=$id";
+    $result=mysqli_query($conn,$sql);
+
+    while ($row=mysqli_fetch_assoc($result)) {
+      # code...
+      $firstname= $row['fName'];
+      $lastname= $row['lName'];
+      $role= $row['role'];
+      $password=$row['password'];
+    }
  
 ?>
 
@@ -38,7 +51,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Upload</title>
+  <title>Files</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -82,10 +95,10 @@
  <!-- ======= Header ======= -->
  <header id="header" class="header fixed-top d-flex align-items-center" style="background-color: #fb7d3e;">
 
-  <div class="d-flex align-items-center justify-content-between">
+ <div class="d-flex align-items-center justify-content-between">
     <div href="index.html" class="logo d-flex align-items-center">
       <img src="assets/img/mbs logo.png" alt="logo">
-      <span class="d-none d-lg-block">Malawi Bureu of Standards</span>
+      <span class="d-none d-lg-block">Malawi Bureau of Standards</span>
     </div>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -118,31 +131,32 @@
       <li class="nav-item dropdown pe-3">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">Thapson Nyirenda</span>
+          <img src="assets/img/male-avator.jpg" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $firstname.' '.$lastname;?></span>
         </a><!-- End Profile Iamge Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          <li class="dropdown-header">
-            <h6>Thapson Nyirenda</h6>
-            <span>Admin</span>
-          </li>
+        <li class="dropdown-header">
+              <h6><?php echo $firstname.' '.$lastname;?></h6>
+              <span>Officer</span>
+            </li>
           <li>
             <hr class="dropdown-divider">
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+            <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
               <i class="bi bi-file-earmark-text-fill"></i>
               <span>My Profile</span>
             </a>
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
-            </a>
+          <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
+
           </li>
 
         </ul><!-- End Profile Dropdown Items -->
@@ -157,54 +171,60 @@
 
  
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar" style="background-color: #fb7d3e;">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<ul class="sidebar-nav" id="sidebar-nav">
 
-     
+ 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="dashboard.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link" href="file.php">
+    <i class="bi bi-file-earmark-pdf"></i>
+      <span>Shared Files</span>
+    </a>
+  </li><!-- End Contact Page Nav -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="upload.php">
+    <i class="bi bi-cloud-upload"></i>
+      <span>Upload Documents</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link" href="file.php">
-        <i class="bi bi-file-earmark-pdf"></i>
-          <span>DEPARTMENT FILES</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="upload.php">
-        <i class="bi bi-cloud-upload"></i>
-          <span>UPLOAD DOCUMENT</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+  
 
-      
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="users-profile.php">
+      <i class="bi bi-person-lines-fill"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
-          <i class="bi bi-person-lines-fill"></i>
-          <span>PROFILE</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+  <li class="nav-item">
+  <a class="nav-link collapsed" href="javascript:void(0);" onclick="confirmLogout();">
+   <i class="bi bi-box-arrow-in-right"></i>
+   <span>Logout</span>
+</a>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="logout.php">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>LOGOUT</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+  </li><!-- End Login Page Nav -->
 
-    </ul>
+</ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
 
   <main id="main" class="main" style="margin-bottom: 50px;">
 
     <div class="pagetitle">
-      <h1>FILES</h1>
+      <h1>SHARED FILES</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="file.php">Home</a></li>
-          <li class="breadcrumb-item active">Files</li>
+          <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+          <li class="breadcrumb-item active">Shared Files</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -234,53 +254,59 @@
                           <tr>
                             <th scope="col">Sn</th>
                             <th scope="col">Document Name</th>
+                            <th scope="col">Description</th>
                             <th scope="col">Date Uploaded</th>
                             <th scope="col">Uploaded by</th>
-                            <th scope="col">Size</th>
                             <th scope="col>">Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         <?php
-                  
-                          $sql = "SELECT * FROM $department WHERE status='approved'";
-                          $result = $conn->query($sql);
-                          
-                          
-                          if ($result->num_rows > 0) {
-                              $count= 1;
-                              // output data of each row
-                              while($row = $result->fetch_assoc()) {
-                                $filePath = '../uploads/' . $department . '/' . $row['filename'];
-                                $fileSize = filesize($filePath); // Get the file size in bytes
+              
+                              $sql = "SELECT * FROM $department WHERE status='approved' ";
+                              $result = $conn->query($sql);
 
-                                // Format the file size for display
-                                if ($fileSize >= 1024 * 1024) {
-                                    $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
-                                } elseif ($fileSize >= 1024) {
-                                    $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
-                                } else {
-                                    $formattedSize = $fileSize . ' bytes';
-                                }
-                                echo'
-                                    <tr>
-                                    <td>'.$count++.'</td>
-                                    <td>'.$row["filename"].'</td>
-                                    <td>'. date('Y-m-d H:i:s', strtotime($row["time_stamp"])) . '</td>
-                                    <td>'.$row["uploaded_by"].'</td>
-                                    <td>' . $formattedSize . '</td>
-                                    <td>
-                                        <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i> View</i></button></a></span>
-                                        
-                                    </td>                                          
-                                    </tr>
-                                ';
-                            }                              
-                          } else {
-                              echo "";
-                          }
-                
-                ?>
+                              if ($result->num_rows > 0) {
+                                  $count= 1;
+                                  
+                                  // output data of each row
+                                  while($row = $result->fetch_assoc()) {
+                                      // Convert the comma-separated string into an array
+                                      $selectedUsers = explode(',', $row['selected_users']);
+                                      
+                                      // Check if the $email value is present in the selectedUsers array
+                                      if (in_array($email, $selectedUsers)) {
+                                          $filePath = '../uploads/' . $department . '/' . $row['filename'];
+                                          // $fileSize = filesize($filePath); // Get the file size in bytes
+
+                                          // // Format the file size for display
+                                          // if ($fileSize >= 1024 * 1024) {
+                                          //     $formattedSize = number_format($fileSize / (1024 * 1024), 2) . ' MB';
+                                          // } elseif ($fileSize >= 1024) {
+                                          //     $formattedSize = number_format($fileSize / 1024, 2) . ' KB';
+                                          // } else {
+                                          //     $formattedSize = $fileSize . ' bytes';
+                                          // }
+                                          echo'
+                                              <tr>
+                                              <td>'.$count++.'</td>
+                                              <td>'.$row["filename"].'</td>
+                                              <td>'.$row["title"].'</td>
+                                              <td>'. date('Y-M-d H:i:s', strtotime($row["time_stamp"])) . '</td>
+                                              <td>'.$row["uploader"].'</td>
+                                              <td>
+                                                  <span><a href="../uploads/'.$department.'/'.$row['filename'].'"><button class="btn btn-danger" id="btn2"><i <i class="bi bi-eye"></i>View</i></button></a></span>
+                                                  
+                                              </td>                                          
+                                              </tr>
+                                          ';
+                                      }
+                                  }                              
+                              } else {
+                                  echo "";
+                              }
+                              ?>
+
                           
                           
                         </tbody>
@@ -330,6 +356,8 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
   <!-- custom script for datatables -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -350,6 +378,24 @@
         var load_screen = document.getElementById("loading");
         document.body.removeChild(load_screen);
     });
+
+    function confirmLogout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Logout!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+}
+
 </script>
 
 </body>

@@ -2,7 +2,7 @@
 
     session_start();
 
-    if (!isset($_GET['user_id'])) {
+    if (!isset($_SESSION['id'])) {
     header('location: ../index.php');
     }
     

@@ -82,7 +82,6 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-clear me-2" onclick="clearForm()" style="color: white; background-color: red;">Clear</button> &nbsp;
                 <input type="submit" class="btn btn-success" value="Login" name="submit">
             </div>
         </form>

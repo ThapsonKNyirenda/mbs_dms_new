@@ -29,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($role == 'admin') {
                     header('location: admin/dashboard.php');
                 } elseif ($role == 'user') {
-                    header('location: user/file.php');
+                    header('location: user/dashboard.php');
                 } elseif ($role == 'manager') {
-                    header('location: manager/approve.php');
+                    header('location: manager/dashboard.php');
                 }
                 exit;
             }      
